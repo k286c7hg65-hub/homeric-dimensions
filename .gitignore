@@ -1,0 +1,5 @@
+deploy.sh
+gen_home_images.py
+gen_thumbs.py
+batch_vision.py
+batch_vision2.py

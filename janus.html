@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>荷马史诗 · 八维解剖 — 双面剧场 · Janus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --iliad-bg:#8b1a1a;
+  --iliad-bg-light:#9e2a2a;
+  --iliad-accent:#c4a35a;
+  --iliad-text:#f0e6d3;
+  --iliad-text-dim:rgba(240,230,211,0.7);
+  --odyssey-bg:#1a3a5c;
+  --odyssey-bg-light:#234b73;
+  --odyssey-accent:#5b9bd5;
+  --odyssey-text:#e8f0f8;
+  --odyssey-text-dim:rgba(232,240,248,0.7);
+  --gold:#c4a35a;
+  --divider-bg:#2a1a10;
+  --meander-color:#c4a35a;
+  --full-bg:#1a1a1a;
+  --full-text:#e0d8c8;
+}
+
+html{scroll-behavior:smooth;height:100%;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--full-bg);
+  color:var(--full-text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* === DESKTOP LAYOUT: TWO INDEPENDENT SCROLLING PANELS === */
+.layout{
+  display:flex;
+  height:100vh;
+  position:relative;
+}
+.panel{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  position:relative;
+}
+.panel-left{
+  background:var(--iliad-bg);
+  /* Crack texture overlay */
+  background-image:
+    repeating-linear-gradient(
+      2deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.03) 3px,
+      rgba(0,0,0,0.03) 4px
+    ),
+    repeating-linear-gradient(
+      87deg,
+      transparent,
+      transparent 8px,
+      rgba(255,255,255,0.015) 8px,
+      rgba(255,255,255,0.015) 9px
+    ),
+    radial-gradient(ellipse at 20% 50%, rgba(180,80,60,0.15) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 20%, rgba(200,100,50,0.08) 0%, transparent 50%);
+}
+.panel-right{
+  background:var(--odyssey-bg);
+  /* Wave texture overlay */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 20px,
+      rgba(91,155,213,0.04) 20px,
+      rgba(91,155,213,0.04) 21px
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      transparent 60%,
+      rgba(0,0,0,0.05) 100%
+    ),
+    radial-gradient(ellipse at 30% 30%, rgba(91,155,213,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(100,180,220,0.06) 0%, transparent 50%);
+}
+
+/* === DIVIDER === */
+.divider{
+  width:18px;
+  background:var(--divider-bg);
+  flex-shrink:0;
+  position:relative;
+  z-index:10;
+  transition:box-shadow 0.4s ease;
+  /* Greek meander pattern */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      var(--meander-color),
+      var(--meander-color) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 6px,
+      var(--meander-color) 6px,
+      var(--meander-color) 8px,
+      transparent 8px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 14px,
+      var(--meander-color) 14px,
+      var(--meander-color) 16px,
+      transparent 16px,
+      transparent 22px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 22px,
+      var(--meander-color) 22px,
+      var(--meander-color) 24px,
+      transparent 24px,
+      transparent 30px
+    );
+  background-color:#1a0e08;
+}
+.divider::before{
+  content:'';
+  position:absolute;
+  top:0;left:-4px;right:-4px;bottom:0;
+  background:radial-gradient(ellipse at center, rgba(196,163,90,0.0) 0%, transparent 100%);
+  transition:background 0.6s ease;
+  pointer-events:none;
+  z-index:5;
+}
+/* Golden glow on divider hover */
+.panel:hover ~ .divider,
+.panel-left:hover + .divider,
+.layout:has(.panel-left:hover) .divider,
+.layout:has(.panel-right:hover) .divider{
+  box-shadow:
+    0 0 30px rgba(196,163,90,0.5),
+    0 0 60px rgba(196,163,90,0.25),
+    0 0 120px rgba(196,163,90,0.1);
+}
+.divider::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(180deg,
+    rgba(196,163,90,0.3) 0%,
+    rgba(196,163,90,0.05) 30%,
+    rgba(196,163,90,0.05) 70%,
+    rgba(196,163,90,0.3) 100%
+  );
+  pointer-events:none;
+}
+
+/* === SECTION STYLES === */
+.section{
+  padding:2.5rem 2rem;
+  border-bottom:1px solid rgba(196,163,90,0.15);
+  min-height:50vh;
+}
+.section:last-child{border-bottom:none;}
+.section-number{
+  font-family:'Cinzel',serif;
+  font-size:0.85rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  opacity:0.5;
+  margin-bottom:0.5rem;
+}
+.panel-right .section-number{
+  font-family:'EB Garamond',serif;
+  font-style:italic;
+  letter-spacing:0.15em;
+}
+.section-title{
+  font-size:clamp(1.4rem, 2.5vw, 2rem);
+  margin-bottom:1.5rem;
+  line-height:1.3;
+  position:relative;
+  padding-bottom:0.75rem;
+}
+.panel-left .section-title{
+  font-family:'Cinzel',serif;
+  color:var(--iliad-accent);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+.panel-right .section-title{
+  font-family:'EB Garamond',serif;
+  color:var(--odyssey-accent);
+  font-weight:600;
+  font-style:italic;
+}
+.section-title::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;
+  width:60px;height:2px;
+}
+.panel-left .section-title::after{background:var(--iliad-accent);}
+.panel-right .section-title::after{background:var(--odyssey-accent);}
+
+.section-body{line-height:1.85;}
+.panel-left .section-body{color:var(--iliad-text);}
+.panel-right .section-body{color:var(--odyssey-text);}
+.section-body p{
+  margin-bottom:1.2rem;
+  font-weight:300;
+}
+.section-body p strong{font-weight:600;}
+.section-body p em{font-style:italic;opacity:0.85;}
+.section-body .highlight{
+  color:var(--gold);
+  font-weight:500;
+}
+
+/* Quote block */
+blockquote{
+  margin:1.5rem 0;
+  padding:1rem 1.5rem;
+  border-left:3px solid var(--gold);
+  font-style:italic;
+  font-size:0.95rem;
+  opacity:0.85;
+}
+.panel-left blockquote{background:rgba(0,0,0,0.15);}
+.panel-right blockquote{background:rgba(0,0,0,0.2);}
+blockquote cite{
+  display:block;
+  margin-top:0.5rem;
+  font-size:0.8rem;
+  font-style:normal;
+  opacity:0.6;
+}
+
+/* === TABLE (Odyssey side) === */
+.comparison-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:1.5rem 0;
+  font-size:0.9rem;
+}
+.comparison-table th{
+  background:rgba(91,155,213,0.15);
+  padding:0.8rem 1rem;
+  text-align:left;
+  font-weight:600;
+  color:var(--odyssey-accent);
+  font-family:'EB Garamond',serif;
+  font-style:italic;
+  font-size:0.95rem;
+  border-bottom:2px solid rgba(91,155,213,0.3);
+}
+.comparison-table td{
+  padding:0.7rem 1rem;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  vertical-align:top;
+  line-height:1.6;
+}
+.comparison-table tr:hover td{
+  background:rgba(91,155,213,0.06);
+}
+.comparison-table td:first-child{
+  font-weight:500;
+  color:var(--gold);
+  white-space:nowrap;
+  font-size:0.85rem;
+}
+
+/* === GOLDEN SCALE ANIMATION (#scale-section) === */
+#scale-section{position:relative;}
+.scale-container{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:1.5rem;
+  margin:2rem 0;
+  padding:1.5rem;
+  background:rgba(0,0,0,0.2);
+  border-radius:8px;
+  position:relative;
+  overflow:hidden;
+}
+.scale-beam{
+  width:120px;
+  height:4px;
+  background:var(--gold);
+  position:relative;
+  transform-origin:center;
+  animation:scaleTilt 4s ease-in-out infinite;
+}
+.scale-beam::before{
+  content:'';
+  position:absolute;
+  top:-6px;left:50%;
+  width:4px;height:16px;
+  background:var(--iliad-accent);
+  transform:translateX(-50%);
+  border-radius:2px;
+}
+.scale-pan{
+  position:absolute;
+  width:60px;
+  height:20px;
+  border:2px solid var(--gold);
+  border-radius:50%;
+  bottom:100%;
+  transform:translateX(-50%);
+  background:rgba(196,163,90,0.1);
+  transition:all 0.6s ease;
+}
+.scale-pan.left{left:20px;animation:panLeft 4s ease-in-out infinite;}
+.scale-pan.right{right:20px;animation:panRight 4s ease-in-out infinite;}
+.scale-label{
+  font-family:'Cinzel',serif;
+  font-size:0.75rem;
+  color:var(--gold);
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  min-width:70px;
+  text-align:center;
+}
+.scale-label.left{text-align:right;}
+.scale-label.right{text-align:left;}
+
+@keyframes scaleTilt{
+  0%,100%{transform:rotate(0deg);}
+  25%{transform:rotate(-8deg);}
+  50%{transform:rotate(0deg);}
+  75%{transform:rotate(6deg);}
+}
+@keyframes panLeft{
+  0%,100%{bottom:100%;}
+  25%{bottom:80%;}
+  50%{bottom:100%;}
+  75%{bottom:110%;}
+}
+@keyframes panRight{
+  0%,100%{bottom:100%;}
+  25%{bottom:115%;}
+  50%{bottom:100%;}
+  75%{bottom:85%;}
+}
+.scale-glow{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:150px;height:150px;
+  background:radial-gradient(circle, rgba(196,163,90,0.15) 0%, transparent 70%);
+  animation:glowPulse 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes glowPulse{
+  0%,100%{opacity:0.3;}
+  50%{opacity:0.7;}
+}
+
+/* === FULL-WIDTH CONCLUSION === */
+.full-section{
+  background:linear-gradient(180deg, #1a1a1a 0%, #111 100%);
+  padding:4rem 2rem;
+  position:relative;
+  border-top:2px solid var(--gold);
+}
+.full-section::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.full-section .section-title{
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  text-align:center;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  font-size:clamp(1.6rem, 3vw, 2.4rem);
+}
+.full-section .section-title::after{
+  left:50%;
+  transform:translateX(-50%);
+  width:80px;
+  background:var(--gold);
+}
+.full-section .section-body{
+  max-width:800px;
+  margin:0 auto;
+  color:var(--full-text);
+}
+
+/* Greek ornament divider */
+.greek-ornament{
+  text-align:center;
+  font-size:2rem;
+  letter-spacing:0.5em;
+  color:var(--gold);
+  margin:2rem 0;
+  opacity:0.6;
+}
+
+/* === RESPONSIVE: TABLET (600-1023px) === */
+@media screen and (max-width:1023px){
+  .layout{display:block;height:auto;}
+  .divider{
+    width:100%;height:12px;
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        var(--meander-color),
+        var(--meander-color) 2px,
+        transparent 2px,
+        transparent 6px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 6px,
+        var(--meander-color) 6px,
+        var(--meander-color) 8px,
+        transparent 8px,
+        transparent 14px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 14px,
+        var(--meander-color) 14px,
+        var(--meander-color) 16px,
+        transparent 16px,
+        transparent 22px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 22px,
+        var(--meander-color) 22px,
+        var(--meander-color) 24px,
+        transparent 24px,
+        transparent 30px
+      );
+  }
+  .panel{flex:none;width:100%;overflow-y:visible;}
+  .panel-left{min-height:auto;padding-bottom:0;}
+  .panel-right{min-height:auto;padding-top:0;}
+  .section{padding:2rem 1.5rem;min-height:auto;}
+}
+
+/* === RESPONSIVE: MOBILE (<600px) === */
+@media screen and (max-width:599px){
+  .section{padding:1.5rem 1rem;}
+  .section-title{font-size:1.2rem;}
+  .section-body{font-size:0.9rem;}
+  .comparison-table{font-size:0.78rem;}
+  .comparison-table th,.comparison-table td{padding:0.5rem 0.6rem;}
+  .scale-container{gap:0.5rem;padding:1rem;}
+  .scale-beam{width:80px;}
+  .scale-pan{width:45px;height:16px;}
+  .scale-label{font-size:0.65rem;min-width:50px;}
+  blockquote{padding:0.75rem 1rem;font-size:0.85rem;}
+}
+
+/* Scrollbar styling */
+.panel::-webkit-scrollbar{width:6px;}
+.panel-left::-webkit-scrollbar-thumb{background:rgba(196,163,90,0.3);border-radius:3px;}
+.panel-right::-webkit-scrollbar-thumb{background:rgba(91,155,213,0.3);border-radius:3px;}
+.panel::-webkit-scrollbar-track{background:transparent;}
+
+/* Fade-in on load */
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.section{animation:fadeInUp 0.6s ease forwards;}
+.section:nth-child(2){animation-delay:0.1s;}
+.section:nth-child(3){animation-delay:0.2s;}
+.section:nth-child(4){animation-delay:0.3s;}
+</style>
+</head>
+<body>
+
+<!-- DESKTOP: Two-panel layout -->
+<div class="layout">
+
+  <!-- LEFT PANEL: Iliad — Wrath & War -->
+  <div class="panel panel-left">
+
+    <!-- 场景插图：阿喀琉斯与雅典娜 -->
+    <figure style="margin:1.5rem 1.5rem 0; text-align:center;">
+      <img src="images/illust_achilles_athena_thumb.png" alt="阿喀琉斯与雅典娜 — 神按住凡人的手" style="max-width:100%; border-radius:4px; border:1px solid var(--iliad-accent); opacity:0.92;">
+      <figcaption style="font-size:0.7rem; color:var(--iliad-text-dim); margin-top:0.3rem; font-style:italic;">阿喀琉斯与雅典娜 — 愤怒被神按住的手 · ARK Seedream 4.0</figcaption>
+    </figure>
+
+    <!-- 一、叙事结构 -->
+    <div class="section">
+      <div class="section-number">Iliad · 壹</div>
+      <h2 class="section-title">叙事结构</h2>
+      <div class="section-body">
+        <p>荷马在<strong>《伊利亚特》</strong>中展示了西方文学史上最具革命性的叙事策略：<em>in medias res</em>（从中间开始）。史诗不始于特洛伊战争的起因，不以海伦的被诱拐或希腊联军的集结为起点，而是在战争第九年，以阿喀琉斯的愤怒为整个叙事的<strong>原始推力</strong>。</p>
+
+        <p>这一结构选择本身就是一场叙事革命。赫西俄德式的线性时间——从宇宙起源讲起的史诗传统——被彻底抛弃。取而代之的是一个<strong>压缩时间</strong>的叙事装置：五十二天的行动浓缩了十年的战争。荷马用<em>追叙</em>（analepsis）和<em>预叙</em>（prolepsis）构建了一张时间之网，让过去和未来同时锚定于当下的愤怒之中。</p>
+
+        <p>阿喀琉斯的愤怒在叙事结构中扮演了<strong>双螺旋</strong>的角色：第一卷的愤怒（对阿伽门农）和第十六卷后的愤怒（对赫克托耳）构成了两个对称的叙事引擎。两者之间是九卷的"缺席"——阿喀琉斯从战场上消失，而希腊军队在他不在场的情况下暴露出致命的脆弱性。这九卷的空白不是叙事真空，而是一个<strong>负空间</strong>：阿喀琉斯的缺席定义了战场上每一个事件的重量。</p>
+
+        <blockquote>
+          "μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος"
+          <cite>—— 《伊利亚特》开篇第一行："歌唱吧女神，歌唱佩琉斯之子阿喀琉斯的愤怒"</cite>
+        </blockquote>
+
+        <p>在微观层面，荷马的<strong>明喻扩展</strong>（extended simile）是叙事结构的另一个关键装置。这些长达十数行的明喻不仅仅是修辞装饰——它们构成了叙事的<strong>第二层面</strong>：将特洛伊平原上的杀戮与牧羊人、狮子、山洪和秋夜星空并置，把凡人的战争投射到自然秩序的尺度上。</p>
+      </div>
+    </div>
+
+    <!-- 二、人物弧线 -->
+    <div class="section">
+      <div class="section-number">Iliad · 贰</div>
+      <h2 class="section-title">人物弧线</h2>
+      <div class="section-body">
+        <p><strong>阿喀琉斯</strong>是西方文学中第一个完整的悲剧人物。他的轨迹不是从弱到强的英雄成长——他一开始就是最强的——而是从<em>荣誉受损的愤怒</em>到<em>悲悯共情</em>的道德觉醒。第二十四卷中他为普里阿摩斯流泪的场景，是整部史诗的<strong>重力中心</strong>：屠夫的双手接过了敌人的父亲，两个失去至亲的人在泪水中达成了跨阵营的悲悯。</p>
+
+        <p><strong>赫克托耳</strong>是<em>特洛伊的良心</em>。他不是为自己而战的英雄——他为城邦、为妻子安德洛玛克、为幼子阿斯提阿纳克斯而战。第六卷中城墙上的告别场景，是全部古代文学中最令人心碎的时刻之一：赫克托耳摘下头盔抱起受惊的儿子，明知自己将死却仍然回到战场。他的英雄主义不来自于超人的武力，而来自<strong>明知不可为而为之的责任感</strong>。</p>
+
+        <p><strong>阿伽门农</strong>作为一个"反弧线"存在：从盲目傲慢到被迫低头，他的认错（第十九卷）并非真正的道德成长，而是<strong>实用主义的屈服</strong>。他的轨迹揭示了荷马对权力的深刻怀疑——王权可以抢夺战利品，却无法赎回信任。</p>
+
+        <p><strong>帕特罗克洛斯</strong>是整个叙事结构的<strong>铰链</strong>。他的死亡是阿喀琉斯从"愤怒一阶"（对阿伽门农）切换到"愤怒二阶"（对赫克托耳）的唯一触发装置。没有帕特罗克洛斯之死，整部史诗的对称结构将崩塌。他的牺牲不是英雄叙事——他是穿着别人的盔甲去死的。</p>
+      </div>
+    </div>
+
+    <!-- 六、神谕与命运 -->
+    <div class="section" id="scale-section">
+      <div class="section-number">Iliad · 陆</div>
+      <h2 class="section-title">神谕与命运</h2>
+      <div class="section-body">
+        <p>在荷马的世界里，命运（<em>μοῖρα / moira</em>）是一股<strong>高于诸神的力量</strong>。宙斯本人不能改变命运——他只能在命运的边界内分配荣耀和苦难。第二十二卷中宙斯举起金天平（<em>χρύσεια τάλαντα / khruseia talanta</em>）称量阿喀琉斯和赫克托耳的命运之签，这一场景是整部史诗的<strong>宇宙学支点</strong>：</p>
+
+        <div class="scale-container">
+          <span class="scale-label left">阿喀琉斯</span>
+          <div class="scale-beam">
+            <div class="scale-pan left"></div>
+            <div class="scale-pan right"></div>
+          </div>
+          <span class="scale-label right">赫克托耳</span>
+          <div class="scale-glow"></div>
+        </div>
+
+        <p>天平的倾斜不是宙斯的决定——他只是<strong>读取</strong>命运已经写定的结果。赫克托耳的命运之签"沉入哈得斯"，这意味着他的死亡不是某个神的意愿，而是宇宙秩序的一部分。这种命运观与近东神话形成鲜明对比：在<em>《吉尔伽美什》</em>中，死亡是人类状况的悲剧性限制；而在荷马中，死亡是个体命运的<strong>实现</strong>而非终结。</p>
+
+        <p>神谕在伊利亚特中以多种形式出现：卡尔卡斯的预言（卷一）、宙斯对忒提斯的承诺、赫克托耳死前对阿喀琉斯的预言——"帕里斯和阿波罗将在斯开亚城门杀死你"。每一个预言都被精准实现，但实现的方式总是<strong>绕过预期</strong>：命运是确定的，通往命运的路径却布满了自由意志的幻觉。</p>
+
+        <blockquote>
+          "命运已经为他称量了死亡的签，命运之秤倾斜了。"
+          <cite>—— 《伊利亚特》卷二十二，宙斯举起金天平</cite>
+        </blockquote>
+
+        <p>这种<strong>双重动力结构</strong>——诸神的任性与命运的铁律并行——是荷马宇宙学的核心悖论。奥林波斯山上的争吵和联盟（赫拉vs宙斯、雅典娜vs阿瑞斯）构成了一出神界的悲喜剧，但其终局早已由命运之签决定。神不是命运的主人，而是命运的<strong>执行者</strong>和<strong>见证者</strong>。</p>
+      </div>
+    </div>
+
+    <!-- 八、人的战争 -->
+    <div class="section">
+      <div class="section-number">Iliad · 捌</div>
+      <h2 class="section-title">人的战争</h2>
+      <div class="section-body">
+        <p>《伊利亚特》不是一部颂扬战争的诗——它是一部关于<strong>战争之代价</strong>的诗。荷马的战场描写具有一种令人不安的<strong>临床精确性</strong>：青铜矛尖刺穿颧骨、肝脏从腹部滑出、牙齿被打碎后混合着血沫吐出。每一具尸体的倒下都伴随着一段<em>微型传记</em>——死者的父亲是谁，他来自哪条河流，他的妻子是否还在织布等待他归来。</p>
+
+        <p>这种技法被称为<strong>"战死小传"</strong>（obituary vignette）：在杀戮的暴力中突然暂停，插入一个简短但完整的生命叙事。西摩伊西俄斯（卷四）"未曾回报父母的养育之恩"便死于埃阿斯的矛下——一个句子，一生的遗憾。荷马通过这些瞬间让读者意识到：每具尸体背后都有一个<em>完整的世界</em>。</p>
+
+        <p>战争在伊利亚特中有两种截然不同的面貌：<strong>荣誉战争</strong>（阿喀琉斯、狄奥墨得斯、大埃阿斯式的单挑对决）和<strong>消耗战争</strong>（无名的屠杀、阵地推进、尸体争夺）。前者是贵族英雄主义的舞台，后者是<strong>平民士兵的送葬队伍</strong>。荷马给前者的篇幅远多于后者，但后者的每一条描述都比所有的独眼巨人神话更接近战争的真相。</p>
+
+        <p>最深刻的讽刺在于：特洛伊战争本是<strong>希腊人自己的选择</strong>。没有任何命运强迫阿伽门农集结千艘战船。从海伦的诱拐到希腊大军的远征，每一个环节都是人类的决定——骄傲、贪婪、荣誉、复仇——而不是神的安排。战神阿瑞斯只是<strong>放大</strong>了已经存在的暴力，而非创造了它。</p>
+
+        <p>第二十四卷的终章——赫克托耳的葬礼——将战争叙事推向了<strong>超越胜利与失败的层面</strong>。阿喀琉斯归还了赫克托耳的尸体，特洛伊为他们的英雄举行了十一天的葬礼。盔甲和武器散落在尘土中，但荷马没有告诉我们谁赢了——因为战争的真正结局不是征服，而是<strong>存活者继续背负死者的重量</strong>。</p>
+      </div>
+    </div>
+
+  </div><!-- end panel-left -->
+
+  <!-- DIVIDER -->
+  <div class="divider"></div>
+
+  <!-- RIGHT PANEL: Odyssey — Wisdom & Homecoming -->
+  <div class="panel panel-right">
+
+    <!-- 场景插图：塞壬之歌 -->
+    <figure style="margin:1.5rem 1.5rem 0; text-align:center;">
+      <img src="images/illust_odysseus_sirens_thumb.png" alt="奥德修斯与塞壬 — 绑在桅杆上听歌的人" style="max-width:100%; border-radius:4px; border:1px solid var(--odyssey-accent); opacity:0.92;">
+      <figcaption style="font-size:0.7rem; color:var(--odyssey-text-dim); margin-top:0.3rem; font-style:italic;">奥德修斯与塞壬 — 智巧（μῆτις）vs 诱惑 · ARK Seedream 4.0</figcaption>
+    </figure>
+
+    <!-- 三、第一性原理 -->
+    <div class="section">
+      <div class="section-number">Odyssey · 叁</div>
+      <h2 class="section-title">第一性原理</h2>
+      <div class="section-body">
+        <p>如果《伊利亚特》的问题意识是<strong>"什么是荣誉？"</strong>，那么《奥德赛》的问题意识则是<strong>"什么是回家？"</strong>。这两个问题在荷马的世界里不是并列的——它们是同一枚硬币的两面。奥德修斯的全部旅程可以被理解为一个<strong>认知归约</strong>过程：每一次冒险剥离一层身份的伪装——国王、战士、掠夺者、说谎者——直到他在费阿刻斯人的海滩上赤身裸体、一无所有，只剩下<em>名字</em>。</p>
+
+        <p>荷马在奥德赛中铺设了一层神话学上的<strong>反英雄主义</strong>底色。与阿喀琉斯用武力解决一切不同，奥德修斯的核心能力是<strong>μετις (mētis)</strong>——狡黠智慧。这种智慧不仅是战术性的（木马计、独眼巨人洞穴中的假名"无人"），更是<strong>存在论意义上的</strong>：在一个诸神反复无常的世界里，机巧是凡人唯一的护盾。</p>
+
+        <p><strong>第一性原理拆解——</strong>奥德赛的底层叙事逻辑建立在三个不可再分的公理上：</p>
+
+        <p><strong>① 身份 = 被辨识</strong>：奥德修斯在整部史诗中反复被"认出来"——老狗阿尔戈斯、乳母欧律克勒亚（通过脚上的伤疤）、妻子佩涅洛佩（通过婚床的秘密）。每一次辨识都是一次身份的<strong>重建</strong>。一个不被辨识的奥德修斯等于不存在。</p>
+
+        <p><strong>② 回家 = 被接受</strong>：回到伊萨卡不是地理位置的到达（第十卷就已抵达），而是在自己的床上被妻子<strong>承认为丈夫</strong>。佩涅洛佩对婚床的终极测试（"把我们的床搬出来"——而床是建在橄榄树根上的，不可搬动）是整个史诗的<strong>认知终点</strong>。</p>
+
+        <p><strong>③ 叙事 = 存活</strong>：在费阿刻斯人的宫廷中，奥德修斯通过<em>讲述自己的故事</em>获得了回家的船票。在一个没有照片和档案的世界里，你的故事就是你的<em>护照</em>。叙事不是幸存者的奢侈，而是幸存者的<strong>必需品</strong>。</p>
+      </div>
+    </div>
+
+    <!-- 四、双史诗的碰撞 -->
+    <div class="section">
+      <div class="section-number">Odyssey · 肆</div>
+      <h2 class="section-title">双史诗的碰撞</h2>
+      <div class="section-body">
+        <p>《伊利亚特》和《奥德赛》在过去两千八百年中被并置为"荷马史诗"的统一体——但它们是<strong>根本不同</strong>的两部作品。它们的差异不是一个诗人写了两个不同主题，而近乎两种<strong>互斥的世界观</strong>在同一文明母体中的共生。</p>
+
+        <table class="comparison-table">
+          <thead>
+            <tr><th>维度</th><th>伊利亚特</th><th>奥德赛</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>核心问题</td><td>如何光荣地死？</td><td>如何智慧地活？</td></tr>
+            <tr><td>空间模型</td><td>特洛伊平原——一个封闭的战场，出不去</td><td>地中海——一个开放的迷宫，回不来</td></tr>
+            <tr><td>时间结构</td><td>五十二天的浓缩爆炸</td><td>十年的蜿蜒漂流 + 四十天的复仇</td></tr>
+            <tr><td>对抗方式</td><td>武力（βιή / biē）：矛与盾</td><td>智巧（μῆτις / mētis）：谎言与伪装</td></tr>
+            <tr><td>神人关系</td><td>神直接参与战斗，甚至被凡人刺伤</td><td>神间接干预——风向、变形、梦境暗示</td></tr>
+            <tr><td>女性角色</td><td>被动客体：海伦、布里塞伊斯（被争夺的战利品）</td><td>能动主体：佩涅洛佩、喀耳刻、卡吕普索、娜乌西卡</td></tr>
+            <tr><td>结局性质</td><td>葬礼——死亡终结一切</td><td>婚床——生命重新开始</td></tr>
+            <tr><td>英雄原型</td><td>阿喀琉斯：愤怒的烈火，烧尽一切包括自己</td><td>奥德修斯：弯曲的弓，忍耐后精准释放</td></tr>
+            <tr><td>核心隐喻</td><td>盾牌——防御与荣耀的边界</td><td>大海——无限可能性的场域</td></tr>
+          </tbody>
+        </table>
+
+        <p>这两部史诗的<strong>互补性</strong>不是巧合。古希腊人将它们视为<em>一对</em>进行吟诵和教育——伊利亚特教男孩如何成为<strong>战士</strong>，奥德赛教男人如何成为<strong>公民</strong>。前者是燃烧的青春，后者是回归的中年。联合起来，它们覆盖了一个人从出生到死亡的<strong>完整道德光谱</strong>。</p>
+
+        <p>但更令人着迷的是<strong>内在矛盾</strong>：阿喀琉斯在冥府中告诉奥德修斯"宁愿做活人的雇工，也不愿做死人的君王"——这几乎否定了伊利亚特的全部英雄伦理。荷马让他笔下的两个英雄<strong>在死后互相驳斥</strong>。</p>
+      </div>
+    </div>
+
+    <!-- 五、神与凡人 -->
+    <div class="section">
+      <div class="section-number">Odyssey · 伍</div>
+      <h2 class="section-title">神与凡人</h2>
+      <div class="section-body">
+        <p>荷马的诸神是人类欲望的<strong>放大镜</strong>。雅典娜不是智慧的化身——她就是智慧本身，化身为门托耳站在忒勒马科斯面前。波塞冬不是海洋的人格化——他<em>就是</em>海洋的愤怒，每一道海浪都是他对奥德修斯个人的敌意。荷马用这种方式把抽象的自然力变成了<strong>有面孔的意志</strong>——你可以向大海祈祷，但你可以和波塞冬<em>谈判</em>。</p>
+
+        <p>在《奥德赛》中，雅典娜与奥德修斯的关系是整部史诗的<strong>终极搭档叙事</strong>。雅典娜欣赏奥德修斯——不是因为他的虔诚，而是因为他的<strong>聪明</strong>。"你我都是诡计大师，"她在第十三卷中对他眨眨眼，"在诸神和凡人中都无人能及。"这种近乎<em>同行之间的互相欣赏</em>在古代宗教中极为罕见。</p>
+
+        <p>相比之下，波塞冬对奥德修斯的仇恨具有一种<strong>近乎人类的怨恨深度</strong>。奥德修斯刺瞎了他的儿子波吕斐摩斯——一个独眼巨人，但毕竟是波塞冬的骨肉。此后的每一海里都是波塞冬亲自铺设的障碍。神不是公正的法官，他们是<strong>有偏好的参与者</strong>。</p>
+
+        <p>凡人与诸神之间的不对称在<strong>卡吕普索</strong>的故事中达到了极致。女神爱上了凡人，愿意给予他不朽——而他说不。奥德修斯选择了<em>死亡</em>（和佩涅洛佩）而非<em>永生</em>（和女神）。这是荷马对人的定义：不是比神弱的存在，而是<strong>选择有限性的存在</strong>。不朽的代价是失去身份——在奥古吉亚岛上，奥德修斯只是一个情人，而在伊萨卡，他是国王、丈夫、父亲和<em>自己</em>。</p>
+      </div>
+    </div>
+
+    <!-- 七、神的战争 -->
+    <div class="section">
+      <div class="section-number">Odyssey · 柒</div>
+      <h2 class="section-title">神的战争</h2>
+      <div class="section-body">
+        <p>《伊利亚特》第二十至二十一卷中，奥林波斯众神亲自下场参战，这或许是整部史诗最<strong>怪异</strong>的段落。雅典娜击倒战神阿瑞斯，赫拉扇了阿尔忒弥斯的耳光，赫淮斯托斯用火河击退克珊托斯河神——诸神的战争是一场<strong>宇宙尺度的家庭争吵</strong>，带有某种荒诞感。</p>
+
+        <p>但这种荒诞是有意为之的。荷马通过展示诸神的<strong>脆弱性</strong>来反向强调凡人的尊严。阿瑞斯——战神——被凡人狄奥墨得斯刺伤后逃回奥林波斯，"像一团黑云"般向宙斯哭诉。阿佛洛狄忒——爱神——被同一枝矛划伤手腕后也被逐出战场。荷马的信息无比清晰：<strong>神可以被伤害，但只有人会死。</strong></p>
+
+        <p>这种神学观与《奥德赛》形成了<strong>深层的互补</strong>。在伊利亚特中，诸神直接介入物质世界——他们投掷闪电、掀起迷雾、给矛尖注入额外的力量。在奥德赛中，诸神的干预更<strong>含蓄</strong>：雅典娜改变奥德修斯的外貌、赫尔墨斯给奥德修斯一株摩吕草以抵御喀耳刻的魔法。从直接暴力到间接引导——这是从<strong>英雄时代</strong>到<strong>理性时代</strong>的过渡在神话语言中的映射。</p>
+
+        <p>神的战争的终极隐喻是：<strong>宇宙本身是不公正的</strong>。宙斯爱赫克托耳——"所有凡人中最受宙斯钟爱的"——却仍然允许他死在阿喀琉斯手下。赫拉恨特洛伊人——因为帕里斯没有选她为最美的女神——所以即使特洛伊的城墙是波塞冬亲手建造的，它也必须倒塌。神的行为逻辑不是道德，而是<strong>偏好</strong>。</p>
+
+        <blockquote>
+          "命运不是我们能决定的——即使宙斯也服从命运。我们能做的只有让它的实现过程更辉煌，或更残酷。"
+          <cite>—— 忒提斯对阿喀琉斯，《伊利亚特》卷十八</cite>
+        </blockquote>
+
+        <p>在《奥德赛》的开篇，宙斯在奥林波斯山上发表了一段<strong>哲学性独白</strong>："凡人总是责怪诸神，说恶来自我们——但事实上，他们因自己的愚行而承受超越命运的痛苦。"荷马在此处将伦理责任<strong>递还给人类</strong>。神提供了条件——风暴、诱惑、障碍——但人类做出了选择。埃吉斯托斯选择勾引克吕泰涅斯特拉并谋杀阿伽门农——赫尔墨斯明确警告过他。他<em>选择了无视</em>。</p>
+      </div>
+    </div>
+
+  </div><!-- end panel-right -->
+
+</div><!-- end layout -->
+
+<!-- FULL-WIDTH CONCLUSION -->
+<div class="full-section">
+  <div class="greek-ornament">◆ ◇ ◆</div>
+  <h2 class="section-title">终论</h2>
+  <div class="section-body">
+    <p><strong>《伊利亚特》和《奥德赛》不是"荷马写的两本书"——它们是西方文明用以理解自身的第一面镜子。</strong></p>
+
+    <p>在那面镜子里，我们看到了两个不可调和的理想：阿喀琉斯的<strong>炽烈</strong>和奥德修斯的<strong>忍耐</strong>。每一种文化、每一个时代、每一个个体，都必须在这两极之间找到自己的位置。荷马没有替我们做选择——他只是精确地绘制了两极之间的全部光谱。</p>
+
+    <p>八维解剖不是要将荷马"缩减"为八个标签。恰恰相反——它通过将史诗拆解为叙事结构、人物弧线、神人关系、命运机制、战争本质等维度，试图展示的是：<strong>为什么两千八百年后我们仍然在读荷马。</strong></p>
+
+    <p>因为这两个故事包含了人类经验的全部结构。愤怒与悲悯、战争与和平、出海与回家、荣誉与生存、命运与自由——荷马没有"发明"这些主题，他<strong>发现了它们</strong>，并把它们种植在语言中，让它们像橄榄树的根系一样穿透了全部西方文学史的土壤。</p>
+
+    <p><strong>阿喀琉斯教会我们如何面对死亡。</strong>在不可改变的命运面前，他选择赋予自己的死亡以最大可能的重量——不是通过逃避，而是通过<em>加速冲向它</em>。他的选择是悲剧的，但也是自由的：命运的边界内，他仍然是自己的主人。</p>
+
+    <p><strong>奥德修斯教会我们如何面对生活。</strong>在无尽的漂流和诱惑中，他选择<strong>记住自己是谁</strong>。每一次他失去一切——船队、同伴、衣服、名字——他都重新构建了身份的核心：我是一个要回家的人。在这个意义上，奥德赛是一个<strong>抗遗忘装置</strong>。</p>
+
+    <p>伊利亚特结束于葬礼。奥德赛结束于婚床。死亡与新生——这就是荷马留给西方文明的双螺旋。我们至今仍然生活在它的引力场中。</p>
+
+    <div class="greek-ornament">◆ ◇ ◆</div>
+
+    <p style="text-align:center;font-size:0.85rem;opacity:0.5;margin-top:2rem;">
+      基于 Samuel Butler 英译本逐卷深读 · 八维解剖框架<br>
+      Iliad &amp; Odyssey — 文明源代码的结构分析
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

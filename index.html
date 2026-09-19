@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>荷马史诗 · 八维解剖 — 入口门户</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET & BASE — 统一 parchment 主题（源自 codex-v1.html）
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --parchment: #f5eedc;
+  --ink: #8b4513;
+  --ink-light: #a0622e;
+  --ink-faint: #c49a6c;
+  --gold: #c4a35a;
+  --gold-dim: rgba(196,163,90,0.35);
+  --bg-dark: #3e2010;
+}
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+  font-family: 'Lora', 'Noto Serif SC', 'STSong', 'SimSun', 'Songti SC', serif;
+  color: var(--ink);
+  background: #2a1508;
+  line-height: 1.75;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================
+   PARCHMENT CONTAINER
+   ============================================ */
+.parchment {
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  margin: 2rem 1rem;
+  padding: 3rem 3rem 4rem;
+  background-color: var(--parchment);
+  background-image:
+    radial-gradient(ellipse at 15% 60%, rgba(139,69,19,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 82% 25%, rgba(139,69,19,0.09) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 85%, rgba(139,69,19,0.07) 0%, transparent 45%),
+    radial-gradient(ellipse at 35% 10%, rgba(139,69,19,0.05) 0%, transparent 40%);
+  border: 1px solid rgba(139,69,19,0.15);
+  box-shadow:
+    0 2px 20px rgba(0,0,0,0.3),
+    0 1px 4px rgba(0,0,0,0.2),
+    inset 0 0 80px rgba(139,69,19,0.06);
+  overflow: hidden;
+}
+
+/* Noise texture overlay */
+.parchment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.30;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* All content above noise */
+.parchment > * { position: relative; z-index: 1; }
+
+/* ============================================
+   PORTAL NAV
+   ============================================ */
+.portal-nav {
+  text-align: center;
+  margin-bottom: 2.2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+.portal-nav a {
+  display: inline-block;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink-light);
+  text-decoration: none;
+  padding: 0.2rem 0.6rem;
+  margin: 0 0.1rem;
+  transition: color 0.25s;
+  border-bottom: 1px solid transparent;
+}
+
+.portal-nav a:hover { color: var(--ink); border-bottom-color: var(--gold); }
+
+.portal-nav .nav-sep {
+  display: inline-block;
+  color: var(--ink-faint);
+  margin: 0 0.15rem;
+  font-weight: 300;
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  text-align: center;
+  margin-bottom: 2.4rem;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.hero h1 .gold { color: var(--gold); }
+
+.hero .subtitle {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.12rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink-light);
+  letter-spacing: 0.04em;
+}
+
+.hero .greek-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--ink-faint);
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================
+   CARD NAVIGATION（V1 / V0 保持原结构）
+   ============================================ */
+h2.section-label {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink-light);
+  text-align: center;
+  margin-bottom: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+h2.section-label .en {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--ink-faint);
+  margin-left: 0.4rem;
+  letter-spacing: 0.04em;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 2.4rem;
+}
+
+.card {
+  display: block;
+  text-decoration: none;
+  padding: 2rem 1.5rem;
+  border-radius: 4px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  color: var(--ink);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.card .badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.05em;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-weight: 700;
+}
+
+.card.codex {
+  background: linear-gradient(135deg, #f5eedc 0%, #ede0c8 100%);
+  border: 1px solid #d4c5a0;
+}
+
+.card.codex .badge { background: #8b4513; color: #f5eedc; }
+
+.card.janus {
+  background: linear-gradient(135deg, #8b1a1a 0%, #1a3a5c 100%);
+  color: #fff;
+}
+
+.card.janus .badge { background: rgba(255,255,255,0.2); color: #fff; }
+
+.card.parthenon {
+  background: #fffdf7;
+  border: 1px solid #e0d6c0;
+}
+
+.card.parthenon .badge { background: #c4a35a; color: #fff; }
+
+.card-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+.card h3 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.15rem;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.card.janus h3 { color: #fff; }
+
+.card .meta {
+  font-size: 0.75rem;
+  opacity: 0.55;
+  margin-bottom: 0.5rem;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  letter-spacing: 0.04em;
+}
+
+.card p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+.card.janus p { opacity: 0.85; }
+
+/* ============================================
+   MEANDER DIVIDER
+   ============================================ */
+.meander {
+  display: block;
+  width: 100%;
+  height: 18px;
+  margin: 2.4rem 0;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 48px 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='18' viewBox='0 0 48 18'%3E%3Cpath d='M0,15 L8,15 L8,3 L12,3 L12,15 L20,15 L20,3 L24,3 L24,15 L32,15 L32,3 L36,3 L36,15 L44,15 L44,3 L48,3' fill='none' stroke='%23c4a35a' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  opacity: 0.7;
+}
+
+/* ============================================
+   PORTAL SECTIONS — 统一羊皮纸内嵌区块
+   ============================================ */
+.portal-section {
+  margin: 3rem 0;
+  padding: 2.4rem 2.3rem 2.6rem;
+  background: linear-gradient(180deg, rgba(255,251,240,0.62), rgba(245,238,220,0.42));
+  border: 1px solid var(--gold-dim);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 10px 28px rgba(139,69,19,0.07);
+}
+
+.portal-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  border-bottom: 1px solid var(--gold-dim);
+  padding-bottom: 1rem;
+  margin-bottom: 1.7rem;
+  flex-wrap: wrap;
+}
+
+.portal-numeral {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.portal-title {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+}
+
+.portal-title .en {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--ink-light);
+  font-weight: 500;
+  margin-left: 0.6rem;
+}
+
+.portal-greek {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--ink-faint);
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+  letter-spacing: 0.02em;
+}
+
+/* ---- Section 1: epic blocks ---- */
+.epic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+}
+
+.epic-block {
+  background: rgba(255,251,240,0.55);
+  border: 1px solid rgba(196,163,90,0.28);
+  border-top: 3px solid var(--gold);
+  padding: 1.6rem 1.5rem 1.4rem;
+}
+
+.epic-block h3 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.epic-block h3 .gk {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 600;
+  margin-right: 0.35rem;
+}
+
+.epic-block .epic-sub {
+  font-style: italic;
+  color: var(--ink-light);
+  font-size: 0.88rem;
+  margin: 0.15rem 0 1rem;
+  letter-spacing: 0.02em;
+}
+
+.epic-block ul { list-style: none; }
+
+.epic-block li {
+  font-size: 0.9rem;
+  line-height: 1.68;
+  margin-bottom: 0.7rem;
+  padding-left: 1.15rem;
+  position: relative;
+  color: var(--ink);
+  text-align: justify;
+}
+
+.epic-block li::before {
+  content: '❦';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--gold);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.epic-block li strong { color: var(--ink); }
+
+.portal-note {
+  margin-top: 1.4rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--ink-faint);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ---- Section 2: influence cards ---- */
+.influence-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem;
+}
+
+.influence-card {
+  background: rgba(255,251,240,0.55);
+  border: 1px solid rgba(196,163,90,0.28);
+  padding: 1.5rem 1.6rem 1.3rem;
+}
+
+.influence-card h3 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px solid var(--gold-dim);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.influence-card .disc-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.influence-card .disc-greek {
+  margin-left: auto;
+  font-style: italic;
+  color: var(--gold);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.influence-card ul { list-style: none; }
+
+.influence-card li {
+  font-size: 0.88rem;
+  line-height: 1.62;
+  margin-bottom: 0.65rem;
+  padding-left: 1.05rem;
+  position: relative;
+  color: var(--ink);
+  text-align: justify;
+}
+
+.influence-card li::before {
+  content: '·';
+  position: absolute;
+  left: 0.15rem;
+  top: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.influence-card li strong { color: var(--ink); }
+
+/* ---- Section 3: characters & gods ---- */
+.sub-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin: 0.4rem 0 1.1rem;
+  flex-wrap: wrap;
+}
+
+.sub-head h3 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.sub-head .sub-en {
+  font-style: italic;
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+}
+
+.sub-head .legend {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  letter-spacing: 0.03em;
+}
+
+.char-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.15rem;
+  margin-bottom: 2.2rem;
+}
+
+.char-card {
+  background: rgba(255,251,240,0.55);
+  border: 1px solid rgba(196,163,90,0.24);
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.char-card .greek-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.05;
+  min-width: 2.1em;
+  text-align: center;
+  padding-top: 0.2rem;
+  border-right: 1px solid var(--gold-dim);
+  padding-right: 0.9rem;
+}
+
+.char-card .char-body { flex: 1; min-width: 0; }
+
+.char-card h4 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.2rem;
+}
+
+.char-card .role {
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  font-style: italic;
+  margin-bottom: 0.35rem;
+}
+
+.char-card p {
+  font-size: 0.83rem;
+  line-height: 1.58;
+  color: var(--ink);
+  text-align: justify;
+}
+
+.badge {
+  display: inline-block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 9px;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+.badge-I { background: #8b1a1a; color: #f5eedc; }        /* 《伊利亚特》 */
+.badge-O { background: #1a3a6b; color: #f5eedc; }        /* 《奥德赛》 */
+.badge-B { background: var(--gold); color: #3e2010; }    /* 双史诗 */
+.badge-G { background: #2c5aa0; color: #f5eedc; }        /* 帮希腊 */
+.badge-T { background: #8b1a1a; color: #f5eedc; }        /* 帮特洛伊 */
+.badge-N { background: var(--ink-faint); color: #3e2010; } /* 中立 */
+
+/* ---- Section 4: quotes ---- */
+.quote-masonry {
+  columns: 2;
+  column-gap: 1.8rem;
+}
+
+.quote-card {
+  break-inside: avoid;
+  margin-bottom: 1.4rem;
+  background: rgba(255,251,240,0.58);
+  border: 1px solid rgba(196,163,90,0.28);
+  border-left: 3px solid var(--gold);
+  padding: 1.3rem 1.4rem 1.1rem;
+}
+
+.quote-card:nth-child(even) { margin-top: 1.5rem; }
+
+.quote-greek {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.quote-translit {
+  font-size: 0.74rem;
+  color: var(--ink-faint);
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  margin-bottom: 0.55rem;
+  letter-spacing: 0.02em;
+}
+
+.quote-en {
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.quote-zh {
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.65;
+}
+
+.quote-cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.74rem;
+  color: var(--ink-light);
+  letter-spacing: 0.05em;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-weight: 600;
+  text-align: right;
+}
+
+.quote-note {
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--ink-faint);
+  text-align: center;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  margin-top: 3.2rem;
+  font-size: 0.82rem;
+  color: var(--ink-light);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.footer a { color: var(--gold); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* ============================================
+   RESPONSIVE — TABLET (600–1023px)
+   ============================================ */
+@media (max-width: 1023px) {
+  .parchment {
+    padding: 2.2rem 1.8rem 3rem;
+    margin: 1.2rem 0.8rem;
+  }
+  .hero h1 { font-size: 2.4rem; }
+  .epic-grid { grid-template-columns: 1fr; gap: 1.3rem; }
+  .influence-grid { grid-template-columns: 1fr; gap: 1.3rem; }
+  .portal-section { padding: 2rem 1.6rem 2.2rem; }
+  .portal-numeral { font-size: 2.2rem; }
+  .portal-title { font-size: 1.5rem; }
+  .quote-masonry { column-gap: 1.4rem; }
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE (<600px)
+   ============================================ */
+@media (max-width: 599px) {
+  html { font-size: 15px; }
+  .parchment {
+    padding: 1.5rem 1rem 2.2rem;
+    margin: 0.6rem 0.3rem;
+  }
+  .hero h1 { font-size: 1.9rem; letter-spacing: 0.04em; }
+  .hero .subtitle { font-size: 0.95rem; }
+  .portal-nav { margin-bottom: 1.5rem; }
+  .portal-nav a { font-size: 0.82rem; padding: 0.15rem 0.35rem; }
+  .meander { margin: 1.6rem 0; height: 14px; }
+  .cards { gap: 1.1rem; }
+  .card { padding: 1.5rem 1.2rem; }
+  .portal-section { margin: 2.2rem 0; padding: 1.5rem 1.1rem 1.7rem; }
+  .portal-head { gap: 0.6rem; padding-bottom: 0.8rem; margin-bottom: 1.3rem; }
+  .portal-numeral { font-size: 1.9rem; }
+  .portal-title { font-size: 1.3rem; }
+  .portal-title .en { display: block; margin-left: 0; font-size: 0.9rem; }
+  .epic-block { padding: 1.3rem 1.1rem; }
+  .influence-card { padding: 1.2rem 1.1rem; }
+  .char-grid { grid-template-columns: 1fr; gap: 0.9rem; }
+  .char-card { padding: 0.95rem 1rem; gap: 0.8rem; }
+  .char-card .greek-name { font-size: 1.4rem; min-width: 1.9em; padding-right: 0.6rem; }
+  .quote-masonry { columns: 1; }
+  .quote-card:nth-child(even) { margin-top: 0; }
+  .quote-card { padding: 1.1rem 1.05rem 0.95rem; }
+  .quote-greek { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="parchment">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>荷马史诗<span class="gold">·</span>八维解剖</h1>
+  <p class="subtitle">Iliad &amp; Odyssey — 文明源代码的结构分析</p>
+  <p class="greek-tag" lang="el">Ὅμηρος · Ἰλιάς · Ὀδύσσεια — μῆνις καὶ νόστος</p>
+</div>
+
+<!-- PORTAL NAV -->
+<nav class="portal-nav">
+  <a href="story.html" style="color:#8b4513; font-weight:700;">〇 故事 <span class="en" style="font-weight:400;">The Stories</span></a><span class="nav-sep">·</span>
+  <a href="#epics">Ⅰ 荷马与史诗</a><span class="nav-sep">·</span>
+  <a href="#influence">Ⅱ 文明影响力</a><span class="nav-sep">·</span>
+  <a href="#characters">Ⅲ 人物与神明</a><span class="nav-sep">·</span>
+  <a href="#quotes">Ⅳ 名言录</a>
+</nav>
+
+<!-- ============ 原有卡片导航（V1 / V0，保持完整） ============ -->
+
+<!-- 故事入口横幅 -->
+<a href="story.html" style="display:block; text-decoration:none; margin:0 0 1.8rem; padding:1.1rem 1.6rem; border:2px solid var(--gold); border-radius:8px; background:linear-gradient(135deg, rgba(196,163,90,0.16), rgba(196,163,90,0.05)); transition:transform 0.25s, box-shadow 0.25s;">
+  <div style="display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap;">
+    <span style="font-family:'Cormorant Garamond',serif; font-size:1.9rem; color:var(--gold); font-weight:700;">〇</span>
+    <div style="flex:1; min-width:240px;">
+      <div style="font-family:'Cormorant Garamond','Noto Serif SC',serif; font-size:1.35rem; font-weight:600; color:var(--ink);">荷马史诗 · 故事 <span style="font-style:italic; font-size:0.95rem; color:var(--ink-light);">The Stories of Homer</span></div>
+      <div style="font-size:0.85rem; color:var(--ink-light); margin-top:0.2rem;">从金苹果到橄榄木床 —— 伊利亚特与奥德赛的完整故事情节，48 卷逐卷提炼，讲给你听。</div>
+    </div>
+    <span style="font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--gold);">→</span>
+  </div>
+</a>
+
+<h2 class="section-label">V1 增强版 · 视觉展览 <span class="en">Immersive Exhibitions</span></h2>
+
+<div class="cards">
+  <a href="codex-v1.html" class="card codex">
+    <span class="badge">V1</span>
+    <div class="card-icon">📜</div>
+    <h3>古典卷轴 · Codex</h3>
+    <div class="meta">抄本 · 陶瓶画 · 谱系树 · 时间线</div>
+    <p>羊皮纸手抄本——卷首插图、章节首字母、众神谱系、时间线对比、边栏图标。</p>
+  </a>
+  <a href="janus-v1.html" class="card janus">
+    <span class="badge">V1</span>
+    <div class="card-icon">🎭</div>
+    <h3>双面剧场 · Janus</h3>
+    <div class="meta">肖像卡 · 五层崩塌 · 相认链 · 陶绘纹理</div>
+    <p>Iliad &amp; Odyssey 分屏——人物肖像、五层防线动画、六重相认、战士/海浪纹理。</p>
+  </a>
+  <a href="parthenon-v1.html" class="card parthenon">
+    <span class="badge">V1</span>
+    <div class="card-icon">🏛️</div>
+    <h3>白大理石 · Parthenon</h3>
+    <div class="meta">柱廊 · 山花 · 雕塑 · 浮雕带 · 旅程图</div>
+    <p>雕塑馆——多立克柱廊、山花众神、大理石半身像、浮雕带、地中海旅程图。</p>
+  </a>
+</div>
+
+<h2 class="section-label" style="margin-top: 1.2rem;">V0 原版 · 纯排版 <span class="en">Typography Editions</span></h2>
+
+<div class="cards">
+  <a href="codex.html" class="card codex">
+    <div class="card-icon">📜</div>
+    <h3>古典卷轴 · Codex</h3>
+    <div class="meta">V0 · 羊皮纸双栏</div>
+    <p>暖米色底色、drop-cap、希腊回纹分隔线、金天平动画。</p>
+  </a>
+  <a href="janus.html" class="card janus">
+    <div class="card-icon">🎭</div>
+    <h3>双面剧场 · Janus</h3>
+    <div class="meta">V0 · 红蓝分屏</div>
+    <p>左右独立滚动、裂纹/波浪纹理、分隔线辉光、对比表格。</p>
+  </a>
+  <a href="parthenon.html" class="card parthenon">
+    <div class="card-icon">🏛️</div>
+    <h3>白大理石 · Parthenon</h3>
+    <div class="meta">V0 · 极简留白</div>
+    <p>680px 居中、Playfair+Source Serif、引用卡片、纯 CSS 天平。</p>
+  </a>
+</div>
+
+<div class="meander" aria-hidden="true"></div>
+
+<!-- ============ 新门户区块 ============ -->
+
+<!-- SECTION 1: Homer & The Epics -->
+<section class="portal-section parchment-section" id="epics">
+  <header class="portal-head">
+    <span class="portal-numeral">Ⅰ</span>
+    <div>
+      <h2 class="portal-title">荷马与史诗 <span class="en">Homer &amp; The Epics</span></h2>
+      <p class="portal-greek" lang="el">Ὅμηρος — ὁ ποιητής. Τὰ ἔπη: Ἰλιὰς καὶ Ὀδύσσεια.</p>
+    </div>
+  </header>
+
+  <div class="epic-grid">
+
+    <!-- Homer -->
+    <article class="epic-block">
+      <h3><span class="gk" lang="el">Ὅμηρος</span>荷马</h3>
+      <div class="epic-sub">Homer · 约公元前 8 世纪</div>
+
+      <!-- 荷马像：史诗入口——读者看到的第一张人脸 -->
+      <figure style="margin:1rem 0 1.2rem; text-align:center;">
+        <img src="images/home_homer_portrait_thumb.png" alt="荷马像 — 盲诗人弹奏里拉琴" style="max-width:88%; height:auto; border:3px solid #d4c5a0; border-radius:6px; box-shadow:0 4px 14px rgba(160,98,46,0.25);">
+        <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.4rem;">Ὅμηρος — 盲诗人 · 里拉琴 · 「荷马」之名或为「人质」/「盲者」的谐音 · ARK Seedream 4.0</figcaption>
+      </figure>
+
+      <ul>
+        <li><strong>荷马问题（The Homeric Question）</strong>：荷马是一个人、一个口传传统，还是一个学派？「荷马」之名甚至可能只是「人质」或「盲者」的古老谐音——这场争论延续了两千年，至今无解。</li>
+        <li><strong>口头程式理论（Milman Parry）</strong>：「快脚阿喀琉斯」「玫瑰色指尖的黎明」这类固定修饰语（epithets）不是装饰，而是口头诗人在六音步格律中即兴创编的程式工具。</li>
+        <li><strong>两部史诗</strong>：《伊利亚特》15,693 行，《奥德赛》12,110 行——合计逾两万七千行英雄六音步诗（dactylic hexameter）。</li>
+        <li><strong>荷马方言</strong>：一种人工文学语言——以爱奥尼亚（Ionic）为基底，混入埃俄利亚（Aeolic）与阿卡多-塞浦路斯（Arcado-Cypriot）成分，现实世界中无人以此说话。</li>
+        <li><strong>吟游传统</strong>：行吟诗人（rhapsodes）口耳相传、代代表演了数百年，直至公元前 6 世纪雅典僭主庇西特拉图（Peisistratus）时代才被整理成文。</li>
+      </ul>
+
+      <!-- 荷马是谁：三重证据三联图 -->
+      <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:1.1rem;">
+        <figure style="margin:0; flex:1 1 30%; min-width:150px; text-align:center;">
+          <img src="images/home_homeric_question_thumb.png" alt="荷马问题 — 一个人？一群人？一个传统？" style="width:100%; height:auto; border:2px solid #d4c5a0; border-radius:4px;">
+          <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.72rem; color:#a0622e; margin-top:0.5rem;">荷马问题 — 一个人？一群人？一个传统？</figcaption>
+        </figure>
+        <figure style="margin:0; flex:1 1 30%; min-width:150px; text-align:center;">
+          <img src="images/home_oral_formula_thumb.png" alt="口头程式理论 — Parry 的公式系统" style="width:100%; height:auto; border:2px solid #d4c5a0; border-radius:4px;">
+          <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.72rem; color:#a0622e; margin-top:0.5rem;">口头程式 — Parry 的公式系统</figcaption>
+        </figure>
+        <figure style="margin:0; flex:1 1 30%; min-width:150px; text-align:center;">
+          <img src="images/home_rhapsode_thumb.png" alt="吟游诗人 — 行吟表演场景" style="width:100%; height:auto; border:2px solid #d4c5a0; border-radius:4px;">
+          <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.72rem; color:#a0622e; margin-top:0.5rem;">吟游传统 — rhapsodes 的口头表演</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- Iliad -->
+    <article class="epic-block">
+      <h3><span class="gk" lang="el">Ἰλιάς</span>伊利亚特</h3>
+      <div class="epic-sub">The Iliad · 特洛伊的故事</div>
+      <ul>
+        <li><strong>场景</strong>：特洛伊战争第十年中的 51 天——此前九年的战争被压缩成背景。</li>
+        <li><strong>核心冲突</strong>：阿喀琉斯的 μῆνις（愤怒）——退出战场 → 挚友之死 → 归来复仇 → 最终悲悯。</li>
+        <li><strong>结构</strong>：环形结构（ring composition）——第一卷的争吵与第二十四卷的和解互为镜像，开篇的愤怒以怜悯收束。</li>
+        <li><strong>24 卷</strong>：以「愤怒」开篇（μῆνιν ἄειδε, θεά），以普里阿摩斯赎回赫克托尔尸体的葬礼作结——史诗不写城陷，只写哀悼。</li>
+        <li><strong>诗眼</strong>：战争中每个防线都会崩溃——荣誉、语言、契约、怜悯，最后是人性本身。</li>
+      </ul>
+    </article>
+
+    <!-- Odyssey -->
+    <article class="epic-block">
+      <h3><span class="gk" lang="el">Ὀδύσσεια</span>奥德赛</h3>
+      <div class="epic-sub">The Odyssey · 归乡的故事</div>
+      <ul>
+        <li><strong>故事</strong>：攻陷特洛伊之后，奥德修斯十年漂泊归乡——从特洛伊到伊萨卡，途经独眼巨人、塞壬、卡吕普索与冥府。</li>
+        <li><strong>结构</strong>：从中间开始（in medias res）+ 嵌入式叙事——第九至十二卷是第一人称 Apologoi（海上历险自述）。</li>
+        <li><strong>24 卷</strong>：以「归乡」（νόστος）开篇（ἄνδρα μοι ἔννεπε），以夫妻重聚、父子相认与神界调停作结。</li>
+        <li><strong>诗眼</strong>：归乡不是回到原点，而是用最曲折的方式重新确认每根纽带——六重相认，从狗的气味到橄榄木床。</li>
+      </ul>
+    </article>
+
+  </div>
+
+  <!-- 信息图：Iliad 51天 vs Odyssey 10年 双时间线 -->
+  <figure style="margin:2rem auto; max-width:900px; text-align:center;">
+    <img src="images/infographic_timeline_thumb.png" alt="Iliad 51天 vs Odyssey 10年 双时间线" style="width:100%; height:auto; border:1px solid #d4c5a0; border-radius:4px;">
+    <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.4rem;">Iliad 的收缩钟 vs Odyssey 的扩张钟 — 双时间线 · ARK Seedream 4.0</figcaption>
+  </figure>
+
+  <!-- 信息图：Odysseus 十年归乡航海图 -->
+  <figure style="margin:2rem auto; max-width:1000px; text-align:center;">
+    <img src="images/infographic_odyssey_map_thumb.png" alt="Odysseus 十年归乡航海图" style="width:100%; height:auto; border:1px solid #d4c5a0; border-radius:4px;">
+    <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.4rem;">Odysseus 十年归乡 — 13 站全景 · ARK Seedream 4.0</figcaption>
+  </figure>
+
+  <p class="portal-note">以上条目基于 7 份逐卷深读笔记（Samuel Butler 英译本，约 26 万字符）提炼 · 两部史诗 48 卷逐字通读</p>
+</section>
+
+<!-- SECTION 2: Influence Across Disciplines -->
+<section class="portal-section" id="influence">
+  <header class="portal-head">
+    <span class="portal-numeral">Ⅱ</span>
+    <div>
+      <h2 class="portal-title">文明影响力 <span class="en">Influence Across Disciplines</span></h2>
+      <p class="portal-greek" lang="el">τῆς ποιήσεως ἡ ἐπίδρασις — φιλοσοφία · λογοτεχνία · δρᾶμα · τέχνη</p>
+    </div>
+  </header>
+
+  <div class="influence-grid">
+
+    <!-- Philosophy -->
+    <article class="influence-card">
+      <h3><span class="disc-icon">🏛️</span>哲学 <span class="disc-greek" lang="el">φιλοσοφία</span></h3>
+      <ul>
+        <li><strong>前苏格拉底</strong>：色诺芬尼（Xenophanes）批判荷马的神人同形论（残篇 B11）——但荷马提出的问题：什么是英雄？什么是命运？——为希腊哲学设定了议程。</li>
+        <li><strong>柏拉图</strong>：《理想国》卷十——「哲学与诗歌之间有一场古老的纷争」（παλαιὰ διαφορά）；但他不断引用荷马，并在《申辩篇》中以阿喀琉斯为榜样。</li>
+        <li><strong>亚里士多德</strong>：《诗学》通过荷马人物定义悲剧。「荷马教会了我们其余人编造虚构故事的艺术」（《诗学》1460a）。</li>
+        <li><strong>斯多亚</strong>：荷马是伦理教科书——寓言论者赫拉克利特（Heraclitus the Allegorist）把《奥德赛》读作灵魂之旅的斯多亚寓言。</li>
+        <li><strong>西蒙娜·薇依</strong>：《伊利亚特，或力量之诗》（1939）——「力量能把任何受其支配的人变成物」。</li>
+        <li><strong>尼采</strong>：《悲剧的诞生》——荷马是日神（阿波罗式）的梦幻世界，凌驾于酒神（狄俄尼索斯式）的混沌之上。</li>
+      </ul>
+
+      <!-- 哲学影响：四徽章 -->
+      <div style="display:flex; gap:0.7rem; flex-wrap:wrap; justify-content:center; margin-top:1.1rem;">
+        <figure style="margin:0; text-align:center; width:86px;">
+          <img src="images/philo_plato_thumb.png" alt="柏拉图" style="width:86px; height:86px; border-radius:50%; border:2px solid #c4a35a; object-fit:cover;">
+          <figcaption style="font-size:0.7rem; color:#a0622e; margin-top:0.25rem;">柏拉图</figcaption>
+        </figure>
+        <figure style="margin:0; text-align:center; width:86px;">
+          <img src="images/philo_aristotle_thumb.png" alt="亚里士多德" style="width:86px; height:86px; border-radius:50%; border:2px solid #c4a35a; object-fit:cover;">
+          <figcaption style="font-size:0.7rem; color:#a0622e; margin-top:0.25rem;">亚里士多德</figcaption>
+        </figure>
+        <figure style="margin:0; text-align:center; width:86px;">
+          <img src="images/philo_stoic_thumb.png" alt="斯多亚学派" style="width:86px; height:86px; border-radius:50%; border:2px solid #c4a35a; object-fit:cover;">
+          <figcaption style="font-size:0.7rem; color:#a0622e; margin-top:0.25rem;">斯多亚</figcaption>
+        </figure>
+        <figure style="margin:0; text-align:center; width:86px;">
+          <img src="images/philo_weil_thumb.png" alt="西蒙娜·薇依" style="width:86px; height:86px; border-radius:50%; border:2px solid #c4a35a; object-fit:cover;">
+          <figcaption style="font-size:0.7rem; color:#a0622e; margin-top:0.25rem;">西蒙娜·薇依</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- Literature -->
+    <article class="influence-card">
+      <h3><span class="disc-icon">📖</span>文学 <span class="disc-greek" lang="el">λογοτεχνία</span></h3>
+      <ul>
+        <li><strong>维吉尔</strong>：《埃涅阿斯纪》是罗马人的《伊利亚特》+《奥德赛》——第 1-6 卷是埃涅阿斯的奥德赛，第 7-12 卷是埃涅阿斯的伊利亚特。</li>
+        <li><strong>但丁</strong>：荷马被安置于灵泊（Limbo，《神曲·地狱篇》IV）——「荷马，众诗人中的君主」。</li>
+        <li><strong>詹姆斯·乔伊斯</strong>：《尤利西斯》（1922）——每一章对应《奥德赛》的一卷。</li>
+        <li><strong>德里克·沃尔科特</strong>：《奥梅罗斯》（Omeros, 1990）——加勒比海的荷马。</li>
+        <li><strong>玛格丽特·阿特伍德</strong>：《珀涅罗珀记》（The Penelopiad, 2005）——从佩涅洛佩的视角重述。</li>
+        <li><strong>米兰·昆德拉</strong>：史诗（自荷马）与小说（自塞万提斯起）的对照——「小说的历史始于发现人不能确定任何事」。</li>
+      </ul>
+
+      <!-- 文学影响：两徽章 -->
+      <div style="display:flex; gap:0.7rem; flex-wrap:wrap; justify-content:center; margin-top:1.1rem;">
+        <figure style="margin:0; text-align:center; width:86px;">
+          <img src="images/lit_ulysses_thumb.png" alt="乔伊斯《尤利西斯》" style="width:86px; height:86px; border-radius:50%; border:2px solid #c4a35a; object-fit:cover;">
+          <figcaption style="font-size:0.7rem; color:#a0622e; margin-top:0.25rem;">乔伊斯《尤利西斯》</figcaption>
+        </figure>
+        <figure style="margin:0; text-align:center; width:86px;">
+          <img src="images/lit_dante_aeneid_thumb.png" alt="但丁 × 维吉尔《埃涅阿斯纪》" style="width:86px; height:86px; border-radius:50%; border:2px solid #c4a35a; object-fit:cover;">
+          <figcaption style="font-size:0.7rem; color:#a0622e; margin-top:0.25rem;">但丁 × 维吉尔</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- Drama -->
+    <article class="influence-card">
+      <h3><span class="disc-icon">🎭</span>戏剧 <span class="disc-greek" lang="el">δρᾶμα</span></h3>
+      <ul>
+        <li><strong>埃斯库罗斯</strong>：称自己的剧作是「荷马盛宴上切下的肉片」（阿特纳奥斯记载）。</li>
+        <li><strong>索福克勒斯</strong>：《埃阿斯》改写《伊利亚特》题材；《菲罗克忒忒斯》衔接两部史诗。</li>
+        <li><strong>欧里庇得斯</strong>：《特洛伊妇女》（公元前 415 年）——从战败者的视角看战争的代价，直接受《伊利亚特》启发。</li>
+        <li><strong>戏剧性的雏形</strong>：《伊利亚特》自身已含戏剧元素——延展的明喻如同镜头切换，直接引语占全文约 45%。</li>
+      </ul>
+    </article>
+
+    <!-- Art & Painting -->
+    <article class="influence-card">
+      <h3><span class="disc-icon">🎨</span>艺术与绘画 <span class="disc-greek" lang="el">τέχνη</span></h3>
+      <ul>
+        <li><strong>希腊瓶绘</strong>（公元前 6-4 世纪）：弗朗索瓦双耳瓶（François Vase, 前 570 年）描绘荷马场景。</li>
+        <li><strong>文艺复兴</strong>：拉斐尔《帕纳苏斯山》（1511）；朱利奥·罗马诺在曼图亚的《特洛伊大厅》（Sala di Troia）。</li>
+        <li><strong>新古典</strong>：雅克-路易·大卫——《阿喀琉斯的愤怒》（1819）、《安德洛玛刻哀悼赫克托尔》（1783）。</li>
+        <li><strong>浪漫主义</strong>：安格尔——《朱庇特与忒提斯》（1811），「阿喀琉斯之盾」时刻最著名的图像。</li>
+        <li><strong>现代</strong>：赛·托姆布雷《伊利亚姆的五十天》（Fifty Days at Iliam, 1978）——抽象表现主义的荷马。</li>
+        <li><strong>大都会博物馆</strong>：约 49 万张公有领域图像，其中大量荷马题材的希腊瓶绘。</li>
+      </ul>
+    </article>
+
+    <!-- 场景插图：木马计 — 后荷马神话 -->
+    <figure style="margin:2rem auto; max-width:800px; text-align:center;">
+      <img src="images/scene_trojan_horse_thumb.png" alt="木马计 — 后荷马神话" style="width:100%; height:auto; border:1px solid #d4c5a0; border-radius:4px;">
+      <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.4rem;">木马计 — 不在荷马原文，但定义了西方对特洛伊的集体想象 · ARK Seedream 4.0</figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<!-- SECTION 3: Key Characters & Gods -->
+<section class="portal-section" id="characters">
+  <header class="portal-head">
+    <span class="portal-numeral">Ⅲ</span>
+    <div>
+      <h2 class="portal-title">人物与神明 <span class="en">Key Characters &amp; Gods</span></h2>
+      <p class="portal-greek" lang="el">ἥρωες καὶ θεοί — θνητοὶ καὶ ἀθάνατοι</p>
+    </div>
+  </header>
+
+  <!-- Mortals -->
+  <div class="sub-head">
+    <h3>凡人</h3>
+    <span class="sub-en">Mortals · 徽章：伊＝《伊利亚特》 奥＝《奥德赛》 双＝两部史诗</span>
+  </div>
+
+  <div class="char-grid">
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἀχιλλεύς</div>
+      <div class="char-body">
+        <h4>Achilles 阿喀琉斯 <span class="badge badge-B">双</span></h4>
+        <div class="role">希腊第一勇士 · 愤怒之诗的主角</div>
+        <p>佩琉斯与忒提斯之子。杀赫克托尔；被帕里斯射中脚踵而亡。选择 κλέος（不朽荣誉）而非 νόστος（归乡）。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἕκτωρ</div>
+      <div class="char-body">
+        <h4>Hector 赫克托尔 <span class="badge badge-I">伊</span></h4>
+        <div class="role">特洛伊主将 · 《伊利亚特》的道德中心</div>
+        <p>普里阿摩斯之子；安德洛玛刻之夫、阿斯提阿纳克斯之父。被阿喀琉斯所杀，尸体遭拖行后由父亲赎回。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ὀδυσσεύς</div>
+      <div class="char-body">
+        <h4>Odysseus 奥德修斯 <span class="badge badge-B">双</span></h4>
+        <div class="role">伊萨卡之王 · πολύτροπος（多谋善变）</div>
+        <p>以智胜力。攻陷特洛伊后漂泊十年归乡，与儿子、乳母、妻子、父亲六重相认，最终血洗求婚者。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Πηνελόπη</div>
+      <div class="char-body">
+        <h4>Penelope 佩涅洛佩 <span class="badge badge-O">奥</span></h4>
+        <div class="role">奥德修斯之妻 · 织布计</div>
+        <p>她的 μῆτις（机巧）与丈夫互为镜像——三年织布计骗过所有求婚者；以橄榄木床的秘密测试真假。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἀγαμέμνων</div>
+      <div class="char-body">
+        <h4>Agamemnon 阿伽门农 <span class="badge badge-I">伊</span></h4>
+        <div class="role">迈锡尼之王 · 希腊联军统帅</div>
+        <p>强夺布里塞伊斯，引爆《伊利亚特》的情节；归乡后被妻子克吕泰涅斯特拉谋杀。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Πάτροκλος</div>
+      <div class="char-body">
+        <h4>Patroclus 帕特罗克洛斯 <span class="badge badge-I">伊</span></h4>
+        <div class="role">阿喀琉斯最亲密的伙伴</div>
+        <p>身穿阿喀琉斯的铠甲出战，被赫克托尔所杀；他的死令阿喀琉斯重返战场，是全诗悲剧的枢纽。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἑλένη</div>
+      <div class="char-body">
+        <h4>Helen 海伦 <span class="badge badge-B">双</span></h4>
+        <div class="role">「使千帆竞发的那张脸」</div>
+        <p>墨涅拉俄斯之妻，被帕里斯带走。自厌又自怜——称自己「无耻的我」，却兼具神性。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Πρίαμος</div>
+      <div class="char-body">
+        <h4>Priam 普里阿摩斯 <span class="badge badge-I">伊</span></h4>
+        <div class="role">特洛伊老王</div>
+        <p>夜入敌营，亲吻杀子之手，赎回赫克托尔的尸体——《伊利亚特》最有力的一幕：「我忍受了无人承受之事」。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἀνδρομάχη</div>
+      <div class="char-body">
+        <h4>Andromache 安德洛玛刻 <span class="badge badge-I">伊</span></h4>
+        <div class="role">赫克托尔之妻</div>
+        <p>第六卷城门前的告别演说——文学史上对爱与恐惧最深的表达之一：「你留下我和孩子，你将我变成寡妇」。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Τηλέμαχος</div>
+      <div class="char-body">
+        <h4>Telemachus 特勒马科斯 <span class="badge badge-O">奥</span></h4>
+        <div class="role">奥德修斯之子 · 成长之旅</div>
+        <p>《奥德赛》以他的寻父之旅开篇（Telemachy，第一至四卷）——子寻父与父归乡的双线奔赴。</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- Gods -->
+  <div class="sub-head">
+    <h3>诸神</h3>
+    <span class="sub-en">Gods · 阵营与谱系图一致</span>
+    <span class="legend">徽章：<span class="badge badge-G">G</span>&nbsp;帮希腊&nbsp;&nbsp;<span class="badge badge-T">T</span>&nbsp;帮特洛伊&nbsp;&nbsp;<span class="badge badge-N">N</span>&nbsp;中立</span>
+  </div>
+
+  <div class="char-grid">
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἥρα</div>
+      <div class="char-body">
+        <h4>Hera 赫拉 <span class="badge badge-G">G</span></h4>
+        <div class="role">天后 · 宙斯之妻</div>
+        <p>对特洛伊怀有刻骨仇恨——「不把普里阿摩斯的城毁掉，我绝不罢休」。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἀθηνᾶ</div>
+      <div class="char-body">
+        <h4>Athena 雅典娜 <span class="badge badge-G">G</span></h4>
+        <div class="role">智慧与战争女神</div>
+        <p>按住阿喀琉斯拔剑的手；奥德修斯的全程庇护者——化身为门忒斯、门托尔。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ποσειδῶν</div>
+      <div class="char-body">
+        <h4>Poseidon 波塞冬 <span class="badge badge-G">G</span></h4>
+        <div class="role">海神</div>
+        <p>支持希腊方；对特洛伊有宿怨——奥德修斯漂泊十年，正是他怒火的延续。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἥφαιστος</div>
+      <div class="char-body">
+        <h4>Hephaestus 赫淮斯托斯 <span class="badge badge-G">G</span></h4>
+        <div class="role">匠神 · 锻冶之神</div>
+        <p>为阿喀琉斯锻造著名的「阿喀琉斯之盾」——盾面上的整个宇宙（《伊利亚特》XVIII）。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἑρμῆς</div>
+      <div class="char-body">
+        <h4>Hermes 赫尔墨斯 <span class="badge badge-G">G</span></h4>
+        <div class="role">众神信使</div>
+        <p>引导普里阿摩斯夜入阿喀琉斯营帐；催眠守军，护送赎尸之行。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Θέτις</div>
+      <div class="char-body">
+        <h4>Thetis 忒提斯 <span class="badge badge-G">G</span></h4>
+        <div class="role">海中女神 · 阿喀琉斯之母</div>
+        <p>以旧恩相求，令宙斯点头助特洛伊人——整个情节机器的开关（Book I）。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἀπόλλων</div>
+      <div class="char-body">
+        <h4>Apollo 阿波罗 <span class="badge badge-T">T</span></h4>
+        <div class="role">日神</div>
+        <p>因祭司受辱向希腊军降下九日瘟疫；护赫克托尔与帕里斯；斥责拖尸之辱。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἀφροδίτη</div>
+      <div class="char-body">
+        <h4>Aphrodite 阿佛洛狄忒 <span class="badge badge-T">T</span></h4>
+        <div class="role">爱神</div>
+        <p>断盔带救走决斗失败的帕里斯；强召海伦——特洛伊的守护女神亲自庇护战争的起因。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἄρτεμις</div>
+      <div class="char-body">
+        <h4>Artemis 阿耳忒弥斯 <span class="badge badge-T">T</span></h4>
+        <div class="role">月神 · 狩猎女神</div>
+        <p>特洛伊方；勒托之女，阿波罗的孪生姊妹。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἄρης</div>
+      <div class="char-body">
+        <h4>Ares 阿瑞斯 <span class="badge badge-T">T</span></h4>
+        <div class="role">战神</div>
+        <p>特洛伊方——被狄奥墨得斯刺伤，被雅典娜用巨石打倒；神的战争没有后果，所以是喜剧。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Λητώ</div>
+      <div class="char-body">
+        <h4>Leto 勒托 <span class="badge badge-T">T</span></h4>
+        <div class="role">阿波罗与阿耳忒弥斯之母</div>
+        <p>特洛伊方；提坦女神，在特洛伊战争中站在子女一侧。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Σκάμανδρος</div>
+      <div class="char-body">
+        <h4>Scamander 斯卡曼德洛斯 <span class="badge badge-T">T</span></h4>
+        <div class="role">河神</div>
+        <p>特洛伊平原的河流化身——在第二十一卷亲自涌出河床与阿喀琉斯交战。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ζεύς</div>
+      <div class="char-body">
+        <h4>Zeus 宙斯 <span class="badge badge-N">N</span></h4>
+        <div class="role">众神之王 · 名义中立</div>
+        <p>称量命运的金天平；为萨耳佩冬落泪却服从命运——「主神也不能违抗命运」。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">ᾍδης</div>
+      <div class="char-body">
+        <h4>Hades 哈迪斯 <span class="badge badge-N">N</span></h4>
+        <div class="role">冥王 · 始终缺席</div>
+        <p>从不离开冥府——奥德修斯与阿喀琉斯的魂魄都在他的疆域相见。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Δημήτηρ</div>
+      <div class="char-body">
+        <h4>Demeter 得墨忒耳 <span class="badge badge-N">N</span></h4>
+        <div class="role">谷物与丰产女神</div>
+        <p>远离战事；荷马笔下的她与哈迪斯一样，不参与特洛伊的赌局。</p>
+      </div>
+    </article>
+
+    <article class="char-card">
+      <div class="greek-name" lang="el">Ἑστία</div>
+      <div class="char-body">
+        <h4>Hestia 赫斯提亚 <span class="badge badge-N">N</span></h4>
+        <div class="role">灶神</div>
+        <p>远离战事——炉灶之神，守护每个家庭的中心，与战争无关。</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- 信息图：Olympus 诸神阵营图 -->
+  <figure style="margin:2rem auto; max-width:900px; text-align:center;">
+    <img src="images/infographic_olympus_thumb.png" alt="Olympus 诸神阵营图" style="width:100%; height:auto; border:1px solid #d4c5a0; border-radius:4px;">
+    <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.4rem;">Olympus 诸神阵营 — G希腊 / T特洛伊 / N中立 · ARK Seedream 4.0</figcaption>
+  </figure>
+</section>
+
+<!-- SECTION 4: Aphorisms & Quotes -->
+<section class="portal-section" id="quotes">
+  <header class="portal-head">
+    <span class="portal-numeral">Ⅳ</span>
+    <div>
+      <h2 class="portal-title">名言录 <span class="en">Aphorisms &amp; Quotes</span></h2>
+      <p class="portal-greek" lang="el">ῥήματα ἀθάνατα — ἀείζωα ἔπη</p>
+    </div>
+  </header>
+
+  <!-- 名言录装饰带 -->
+  <div style="text-align:center; margin:0.4rem 0 1.2rem;">
+    <img src="images/quote_meander_thumb.png" alt="希腊回纹装饰带" style="max-width:560px; width:100%; height:auto; border-radius:3px; opacity:0.9;">
+  </div>
+
+  <div class="quote-masonry">
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">μῆνιν ἄειδε, θεά, Πηληϊάδεω Ἀχιλῆος</p>
+      <p class="quote-translit">mēnin aeide, thea, Pēlēiadeō Achilēos</p>
+      <p class="quote-en">Sing, goddess, the wrath of Achilles, son of Peleus.</p>
+      <p class="quote-zh">女神啊，请歌唱佩琉斯之子阿喀琉斯的愤怒。</p>
+      <cite class="quote-cite">《伊利亚特》I.1 — 全诗第一个词：愤怒</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">Ἄνδρα μοι ἔννεπε, Μοῦσα, πολύτροπον</p>
+      <p class="quote-translit">andra moi ennepe, Mousa, polytropon</p>
+      <p class="quote-en">Tell me, Muse, of the man of many turns.</p>
+      <p class="quote-zh">缪斯啊，请为我讲述那位历尽沧桑之人。</p>
+      <cite class="quote-cite">《奥德赛》I.1 — 全诗第一个词：那个人</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">εἰ μὲν κ' αὖθι μένων Τρώων πόλιν ἀμφιμάχωμαι, ὤλετό μοι νόστος, ἀτὰρ κλέος ἄφθιτον ἔσται</p>
+      <p class="quote-en">If I stay here and fight around the city of Troy, my homecoming is lost, but my glory shall be imperishable.</p>
+      <p class="quote-zh">我若留此苦战特洛伊城，归返将失，而荣誉永垂不朽——短暂而光荣，或漫长而平凡。</p>
+      <cite class="quote-cite">《伊利亚特》IX.410–416 — 阿喀琉斯的两难</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">ἂψ δ' ὁ πάϊς πρὸς κόλπον ἐϋζώνοιο τιθήνης ἐκλίνθη ἰάχων, πατρὸς φίλου ὄψιν ἀτυχθείς</p>
+      <p class="quote-en">The child shrank back into the bosom of his well-girdled nurse, crying aloud, frightened by his dear father's appearance.</p>
+      <p class="quote-zh">孩子吓得缩回束带乳母的怀中，哭叫起来——被亲爱的父亲的模样惊着了。赫克托尔随即摘下头盔。</p>
+      <cite class="quote-cite">《伊利亚特》VI.467–469 — 赫克托尔与安德洛玛刻</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">ὤ μοι ἐγών, ὅ τέ μοι Σαρπηδόνα, φίλτατον ἀνδρῶν, μοῖρ' ὑπὸ Πατρόκλοιο Μενοιτιάδαο δαμῆναι</p>
+      <p class="quote-en">Ah me, that it is fated that Sarpedon, dearest of men to me, be slain by Patroclus, son of Menoetius.</p>
+      <p class="quote-zh">天哪，命运注定我最亲爱的萨耳佩冬，要被墨诺提俄斯之子帕特罗克洛斯杀死——命运高于诸神。</p>
+      <cite class="quote-cite">《伊利亚特》XVI.433–434 — 宙斯亦不能救子</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">ἔτλην δ' οἷ' οὔ πώ τις ἐπιχθόνιος βροτὸς ἄλλος, ἀνδρὸς παιδοφόνοιο ποτὶ στόμα χεῖρ' ὀρέγεσθαι</p>
+      <p class="quote-en">I have endured what no other mortal on earth has endured: to raise to my lips the hand of the man who slew my son.</p>
+      <p class="quote-zh">我忍受了世间任何凡人都未曾忍受的事——把杀死我儿子的那只手，举到自己的唇边。</p>
+      <cite class="quote-cite">《伊利亚特》XXIV.505–506 — 普里阿摩斯吻阿喀琉斯之手</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">βουλοίμην κ' ἐπάρουρος ἐὼν θητευέμεν ἄλλῳ, ἀνδρὶ παρ' ἀκλήρῳ, ᾧ μὴ βίοτος πολὺς εἴη, ἢ πᾶσιν νεκύεσσι καταφθιμένοισιν ἀνάσσειν</p>
+      <p class="quote-translit">bouloimēn k' eparouros eōn thēteuemen allōi … ē pasin nekyessi kataphthimenoisin anassein</p>
+      <p class="quote-en">I would rather be a hired servant in the house of a landless poor man than king over all the dead.</p>
+      <p class="quote-zh">我宁愿在人间做个穷人家的雇工，也不愿在冥府统治所有的亡灵。</p>
+      <cite class="quote-cite">《奥德赛》XI.489–491 — 冥府中的阿喀琉斯</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">οἵη περ φύλλων γενεὴ τοίη δὲ καὶ ἀνδρῶν</p>
+      <p class="quote-translit">oiē per phyllōn geneē toiē de kai andrōn</p>
+      <p class="quote-en">As is the generation of leaves, so too is that of men.</p>
+      <p class="quote-zh">正如树叶的世代，人类的世代也是如此。</p>
+      <cite class="quote-cite">《伊利亚特》VI.146 — 格劳科斯对狄奥墨得斯</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">ἴσκε ψεύδεα πολλὰ λέγων ἐτύμοισιν ὁμοῖα</p>
+      <p class="quote-en">He told many falsehoods that resembled truths.</p>
+      <p class="quote-zh">他说了许多谎言，听来却与真事无异——荷马对奥德修斯说书艺术的自我指涉。</p>
+      <cite class="quote-cite">《奥德赛》XIX.203</cite>
+    </blockquote>
+
+    <blockquote class="quote-card">
+      <p class="quote-greek" lang="el">Διὸς δ' ἐτελείετο βουλή</p>
+      <p class="quote-translit">Dios d' eteleieto boulē</p>
+      <p class="quote-en">And the will of Zeus was being accomplished.</p>
+      <p class="quote-zh">宙斯的意志正在实现——全诗的幕后发动机。</p>
+      <cite class="quote-cite">《伊利亚特》I.5</cite>
+    </blockquote>
+
+  </div>
+
+  <!-- 名言录收尾装饰 -->
+  <div style="display:flex; gap:1.2rem; justify-content:center; align-items:flex-start; margin:1.4rem 0 0.4rem;">
+    <img src="images/quote_laurel_thumb.png" alt="月桂花环" style="width:120px; height:118px; object-fit:cover; opacity:0.85;">
+    <img src="images/quote_lyre_thumb.png" alt="里拉琴" style="width:120px; height:118px; object-fit:cover; opacity:0.85;">
+  </div>
+
+  <p class="quote-note">中文译文参照罗念生《伊利亚特》、王焕生《奥德赛》的通行译法，个别处为直译 · 希腊原文据牛津古典文本（Oxford Classical Text）</p>
+</section>
+
+<p class="footer">
+  基于 Samuel Butler 英译本逐卷深读 · 2026-08-05 · <a href="https://github.com/k286c7hg65-hub/homeric-dimensions">GitHub</a>
+</p>
+
+</div><!-- /parchment -->
+
+</body>
+</html>

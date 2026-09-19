@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>荷马史诗 · 八维解剖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+:root {
+  --parchment: #f5eedc;
+  --ink: #8b4513;
+  --ink-light: #a0622e;
+  --ink-faint: #c49a6c;
+  --gold: #c4a35a;
+  --gold-dim: rgba(196,163,90,0.35);
+  --bg-dark: #3e2010;
+}
+
+html { scroll-behavior:smooth; font-size:17px; }
+
+body {
+  font-family: 'Lora', 'Noto Serif SC', 'STSong', 'SimSun', 'Songti SC', serif;
+  color: var(--ink);
+  background: #2a1508;
+  line-height: 1.75;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================
+   PARCHMENT CONTAINER
+   ============================================ */
+.parchment {
+  position: relative;
+  max-width: 1100px;
+  width: 100%;
+  margin: 2rem 1rem;
+  padding: 3rem 2.5rem 4rem;
+  background-color: var(--parchment);
+  background-image:
+    radial-gradient(ellipse at 15% 60%, rgba(139,69,19,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 82% 25%, rgba(139,69,19,0.09) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 85%, rgba(139,69,19,0.07) 0%, transparent 45%),
+    radial-gradient(ellipse at 35% 10%, rgba(139,69,19,0.05) 0%, transparent 40%);
+  border: 1px solid rgba(139,69,19,0.15);
+  box-shadow:
+    0 2px 20px rgba(0,0,0,0.3),
+    0 1px 4px rgba(0,0,0,0.2),
+    inset 0 0 80px rgba(139,69,19,0.06);
+  overflow: hidden;
+}
+
+/* Noise texture overlay */
+.parchment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.30;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* All content above noise */
+.parchment > * { position: relative; z-index: 1; }
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+nav {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+nav a {
+  display: inline-block;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-light);
+  text-decoration: none;
+  padding: 0.2rem 0.55rem;
+  margin: 0 0.1rem;
+  transition: color 0.25s;
+  border-bottom: 1px solid transparent;
+}
+
+nav a:hover { color: var(--ink); border-bottom-color: var(--gold); }
+
+nav .nav-sep {
+  display: inline-block;
+  color: var(--ink-faint);
+  margin: 0 0.15rem;
+  font-weight: 300;
+}
+
+nav .nav-coda {
+  margin-left: 0.6rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid var(--ink-faint);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+}
+
+header .subtitle {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink-light);
+  letter-spacing: 0.04em;
+}
+
+/* ============================================
+   FRONTISPIECE — 卷首插图
+   ============================================ */
+.frontispiece {
+  display: flex;
+  justify-content: center;
+  margin: 1.8rem 0 0.5rem;
+}
+
+.frontispiece svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================
+   MEANDER DIVIDER
+   ============================================ */
+.meander {
+  display: block;
+  width: 100%;
+  height: 18px;
+  margin: 2.2rem 0;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 48px 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='18' viewBox='0 0 48 18'%3E%3Cpath d='M0,15 L8,15 L8,3 L12,3 L12,15 L20,15 L20,3 L24,3 L24,15 L32,15 L32,3 L36,3 L36,15 L44,15 L44,3 L48,3' fill='none' stroke='%23c4a35a' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  opacity: 0.7;
+}
+
+/* ============================================
+   TWO-COLUMN GRID (desktop)
+   ============================================ */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem 3rem;
+}
+
+/* ============================================
+   SECTION
+   ============================================ */
+.section {
+  margin-bottom: 2.8rem;
+  break-inside: avoid;
+}
+
+.section-numeral {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gold);
+  float: left;
+  margin-right: 0.5rem;
+  margin-top: -0.35rem;
+  font-style: normal;
+}
+
+.section h2 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   ILLUMINATED INITIAL (enhanced drop cap — §2)
+   ============================================ */
+.section p {
+  margin-bottom: 1rem;
+  text-align: justify;
+  text-indent: 0;
+  hyphens: auto;
+}
+
+.section p::first-letter {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: 4em;
+  float: left;
+  line-height: 0.75;
+  padding: 0.06em 0.1em;
+  margin-right: 0.1em;
+  color: var(--ink);
+  font-weight: 700;
+  outline: 2.5px solid var(--gold);
+  outline-offset: 3px;
+  background: linear-gradient(145deg, rgba(196,163,90,0.12) 0%, rgba(196,163,90,0.03) 60%, transparent 100%);
+  border-radius: 2px;
+  text-shadow: 1px 1px 0 rgba(196,163,90,0.2);
+}
+
+/* ============================================
+   MARGINALIA ICONS — §6
+   ============================================ */
+.marginalia-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 26px;
+  height: 26px;
+  margin-right: 0.35rem;
+  margin-bottom: 1px;
+  opacity: 0.75;
+}
+
+.character-block {
+  margin-bottom: 1rem;
+}
+
+.character-block strong {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ============================================
+   TIMELINE — §4
+   ============================================ */
+.timeline-dual {
+  margin: 1.8rem 0 0.5rem;
+  font-size: 0.78rem;
+}
+
+.timeline-row {
+  margin-bottom: 1.2rem;
+}
+
+.timeline-label {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.03em;
+}
+
+.timeline-track {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 28px;
+}
+
+.timeline-bar {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  position: relative;
+}
+
+.timeline-bar.iliad { background: linear-gradient(90deg, #8b1a1a, #c0392b); }
+.timeline-bar.odyssey { background: linear-gradient(90deg, #1a3a6b, #2c5aa0); }
+
+.timeline-node {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--parchment);
+  flex-shrink: 0;
+}
+
+.timeline-bar.iliad .timeline-dot { border-color: #c0392b; }
+.timeline-bar.odyssey .timeline-dot { border-color: #2c5aa0; }
+
+.timeline-dot-label {
+  margin-top: 4px;
+  font-size: 0.65rem;
+  color: var(--ink-light);
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.3;
+  position: absolute;
+  top: 12px;
+}
+
+/* ============================================
+   OLYMPUS GENEALOGY — §3
+   ============================================ */
+.olympus-tree {
+  margin: 1.8rem 0 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.olympus-tree svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================
+   TABLE
+   ============================================ */
+.section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0 1.5rem;
+  font-size: 0.88rem;
+}
+
+.section thead th {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 2px solid var(--gold);
+  letter-spacing: 0.03em;
+}
+
+.section tbody td {
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid rgba(139,69,19,0.12);
+  vertical-align: top;
+  font-size: 0.86rem;
+}
+
+.section tbody tr:last-child td { border-bottom: none; }
+
+.section tbody td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ============================================
+   GOLDEN SCALE ANIMATION
+   ============================================ */
+#scale-section {
+  position: relative;
+  padding-top: 2.8rem;
+  margin-top: 0.5rem;
+}
+
+#scale-section::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  translate: -50% 0;
+  width: 56px;
+  height: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='28' viewBox='0 0 56 28'%3E%3Cline x1='4' y1='24' x2='52' y2='24' stroke='%23c4a35a' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='28' y1='24' x2='28' y2='8' stroke='%23c4a35a' stroke-width='1.5'/%3E%3Ccircle cx='8' cy='22' r='4' fill='none' stroke='%23c4a35a' stroke-width='1.2'/%3E%3Ccircle cx='48' cy='22' r='4' fill='none' stroke='%23c4a35a' stroke-width='1.2'/%3E%3Ccircle cx='28' cy='4' r='2.5' fill='none' stroke='%23c4a35a' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: scale-sway 4s ease-in-out infinite;
+  transform-origin: center 24px;
+}
+
+@keyframes scale-sway {
+  0%, 100% { rotate: -3deg; }
+  50% { rotate: 3deg; }
+}
+
+/* ============================================
+   CODA
+   ============================================ */
+.coda {
+  margin-top: 0.5rem;
+}
+
+.coda h2 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+
+.coda p {
+  text-align: justify;
+  text-indent: 2em;
+  margin-bottom: 1rem;
+}
+
+/* Coda first paragraph — single drop cap */
+.coda p:first-of-type::first-letter {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', serif;
+  font-size: 3.2em;
+  float: left;
+  line-height: 0.78;
+  padding-right: 6px;
+  padding-top: 2px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Coda final emphasis */
+.coda p:last-child {
+  text-align: center;
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  text-indent: 0;
+}
+
+/* ============================================
+   COLOPHON — §5
+   ============================================ */
+.colophon {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.colophon-frame {
+  display: inline-block;
+  position: relative;
+  border: 2.5px solid var(--gold);
+  padding: 1.8rem 3rem;
+  min-width: 320px;
+  max-width: 90%;
+}
+
+/* Corner ornaments */
+.colophon-frame::before,
+.colophon-frame::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M3,3 L17,3 M3,3 L3,10 M17,3 L17,10 M3,17 L17,17 M3,17 L3,10 M17,17 L17,10 M3,10 L6,10 M14,10 L17,10 M10,3 L10,6 M10,14 L10,17' fill='none' stroke='%23c4a35a' stroke-width='1.2' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='10' r='2' fill='none' stroke='%23c4a35a' stroke-width='0.8'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+}
+
+.colophon-frame::before { top: 8px; left: 8px; }
+.colophon-frame::after { bottom: 8px; right: 8px; }
+
+.colophon-meander-top,
+.colophon-meander-bottom {
+  display: block;
+  width: 60%;
+  height: 14px;
+  margin: 0 auto;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 36px 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='14' viewBox='0 0 36 14'%3E%3Cpath d='M0,11 L6,11 L6,3 L9,3 L9,11 L15,11 L15,3 L18,3 L18,11 L24,11 L24,3 L27,3 L27,11 L33,11 L33,3 L36,3' fill='none' stroke='%23c4a35a' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.colophon-meander-top { margin-bottom: 0.9rem; }
+.colophon-meander-bottom { margin-top: 0.9rem; }
+
+.colophon-text {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+/* ============================================
+   EMPHASIS & INLINE
+   ============================================ */
+em { font-style: italic; color: var(--ink); }
+strong { font-weight: 700; color: var(--ink); }
+
+/* Greek words get a touch of gold */
+em:where(:lang(el)),
+.section p em,
+.coda p em {
+  color: var(--ink);
+}
+
+/* ============================================
+   RESPONSIVE — TABLET (600–1023px)
+   ============================================ */
+@media (max-width: 1023px) {
+  .columns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .parchment {
+    padding: 2.2rem 1.8rem 3rem;
+    margin: 1.2rem 0.8rem;
+  }
+  header h1 { font-size: 2.3rem; }
+  .section-numeral { font-size: 2.7rem; }
+  .section h2 { font-size: 1.35rem; }
+  .section p::first-letter { font-size: 3.5em; }
+  .colophon-frame { padding: 1.3rem 1.8rem; min-width: 260px; }
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE (<600px)
+   ============================================ */
+@media (max-width: 599px) {
+  html { font-size: 15px; }
+  .parchment {
+    padding: 1.5rem 1rem 2.2rem;
+    margin: 0.6rem 0.3rem;
+  }
+  header h1 { font-size: 1.85rem; letter-spacing: 0.04em; }
+  header .subtitle { font-size: 0.95rem; }
+  nav { margin-bottom: 1.5rem; }
+  nav a { font-size: 0.78rem; padding: 0.15rem 0.35rem; }
+  .meander { margin: 1.5rem 0; height: 14px; }
+  .section { margin-bottom: 2rem; }
+  .section-numeral { font-size: 2.3rem; margin-right: 0.35rem; }
+  .section h2 { font-size: 1.2rem; }
+  .section p::first-letter { font-size: 3em; }
+  .section table { font-size: 0.75rem; }
+  .section thead th { font-size: 0.78rem; padding: 0.35rem 0.4rem; }
+  .section tbody td { font-size: 0.73rem; padding: 0.3rem 0.4rem; }
+  #scale-section { padding-top: 2.2rem; }
+  #scale-section::before { width: 42px; height: 22px; }
+  .coda h2 { font-size: 1.35rem; }
+  .colophon-frame { padding: 1rem 1.2rem; min-width: 200px; }
+  .colophon-text { font-size: 0.82rem; }
+  .timeline-dot-label { font-size: 0.58rem; }
+  .timeline-dual { font-size: 0.7rem; }
+  .olympus-tree svg { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="parchment">
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#one">I</a><span class="nav-sep">·</span>
+  <a href="#two">II</a><span class="nav-sep">·</span>
+  <a href="#three">III</a><span class="nav-sep">·</span>
+  <a href="#four">IV</a><span class="nav-sep">·</span>
+  <a href="#five">V</a><span class="nav-sep">·</span>
+  <a href="#six">VI</a><span class="nav-sep">·</span>
+  <a href="#seven">VII</a><span class="nav-sep">·</span>
+  <a href="#eight">VIII</a>
+  <a href="#coda" class="nav-coda">终论</a>
+</nav>
+
+<!-- HEADER -->
+<header>
+  <h1>荷马史诗 · 八维解剖</h1>
+  <p class="subtitle">Iliad &amp; Odyssey — 文明源代码的结构分析</p>
+</header>
+
+<!-- 卷首插图: Achilles 拔剑被 Athena 按住头发 — Book I, 黑绘陶瓶风格 -->
+<div class="frontispiece" aria-label="Achilles 拔剑被 Athena 按住头发 — 黑绘陶瓶风格">
+  <img src="images/frontispiece_achilles_athena_thumb.png" alt="Achilles 拔剑被 Athena 按住头发 — 黑绘陶瓶风格 (Iliad Book I)" style="width:100%; max-width:600px; height:auto; aspect-ratio:3/1; object-fit:cover; border-radius:4px; display:block;">
+</div>
+
+<!-- 陶瓶画插图 -->
+<figure style="text-align:center; margin:0.8rem 0 0.2rem;">
+  <img src="images/illust_achilles_athena_thumb.png" alt="Athena restraining Achilles from drawing his sword — Iliad Book I" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:80%; margin:0 auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+  <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.3rem;">Athena restraining Achilles — Iliad I.194–200 · ARK Seedream</figcaption>
+</figure>
+
+<div class="meander" aria-hidden="true"></div>
+
+<!-- TWO-COLUMN LAYOUT -->
+<div class="columns">
+
+  <!-- LEFT COLUMN: sections 1–4 -->
+  <div class="col-left">
+
+    <!-- ONE -->
+    <section class="section" id="one">
+      <span class="section-numeral">一</span>
+      <h2>叙事结构：两个相反的时钟</h2>
+      <p>荷马发明了「从中间开始」（<em>in medias res</em>），但两部史诗的「中间」完全不同。</p>
+      <p><strong>Iliad 的时钟收缩</strong>：全诗覆盖特洛伊战争第十年的 51 天，但实际叙述集中在 4 天。战争的九年被压缩进四天的叙事密度。结构上是钟摆式——战局从特洛伊城门退到海岸线、再推回城墙、再退到船边、再推回城内——空间来回震荡，直到 Hector 死后一切静止。</p>
+
+      <!-- 概念插图：Iliad 环形结构 -->
+      <figure class="concept-illo">
+        <img src="images/conc_05_ring_thumb.png" alt="Iliad 环形结构: I↔XXIV, II↔XXIII, IX↔XVI" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:85%; margin:0.8rem auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+        <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.75rem; color:#a0622e; margin-top:0.2rem; text-align:center;">Iliad 的环形结构 — Book I 的争吵在 Book XXIV 和解中回响 · ARK Seedream 5.0</figcaption>
+      </figure>
+      <p><strong>Odyssey 的时钟膨胀</strong>：十年漂泊被折叠进 Books IX–XII 的第一人称回忆（Apologoi 插叙），但诗中的「现在」只覆盖约 40 天。前八年（Cicones → Calypso）在 Odysseus 的口述中一闪而过——结构不是线性的，是嵌套的。</p>
+      <p><strong>双史诗的时间哲学</strong>：Iliad 的 51 天 → 全部指向一个终点（Hector 的死亡）；Odyssey 的十年 → 全部指向一个起点（Ithaca 的炉灶）。<em>一部向死，一部向生。</em></p>
+
+      <!-- 时间线对比图 -->
+      <div class="timeline-dual">
+        <div class="timeline-row">
+          <div class="timeline-label" style="color:#8b1a1a;">Iliad · 51 Days</div>
+          <div class="timeline-track">
+            <div class="timeline-bar iliad" style="position:relative; width:100%;">
+              <div class="timeline-node" style="left:8%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">瘟疫<br>Book I</div>
+              </div>
+              <div class="timeline-node" style="left:32%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">溃败至船<br>Book VIII–XI</div>
+              </div>
+              <div class="timeline-node" style="left:65%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">Patroclus 死<br>Book XVI</div>
+              </div>
+              <div class="timeline-node" style="left:90%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">Hector 死<br>Book XXII</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-label" style="color:#1a3a6b;">Odyssey · ~40 Days</div>
+          <div class="timeline-track">
+            <div class="timeline-bar odyssey" style="position:relative; width:100%;">
+              <div class="timeline-node" style="left:5%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">神议<br>Book I</div>
+              </div>
+              <div class="timeline-node" style="left:22%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">Phaeacia<br>Book VI–VIII</div>
+              </div>
+              <div class="timeline-node" style="left:42%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">Apologoi<br>Book IX–XII</div>
+              </div>
+              <div class="timeline-node" style="left:72%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">归乡<br>Book XIII</div>
+              </div>
+              <div class="timeline-node" style="left:92%;">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dot-label">血洗<br>Book XXII</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWO -->
+    <section class="section" id="two">
+      <span class="section-numeral">二</span>
+      <h2>人物弧线：四条不能被合并的轨迹</h2>
+
+      <!-- Achilles — 剑与盾图标 -->
+      <div class="character-block">
+        <p><strong>
+          <svg class="marginalia-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <title>Achilles: 剑与盾</title>
+            <circle cx="12" cy="12" r="8" fill="none" stroke="var(--ink)" stroke-width="1.2" opacity="0.6"/>
+            <circle cx="12" cy="12" r="4" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+            <circle cx="12" cy="12" r="1.5" fill="var(--gold)" opacity="0.6"/>
+            <line x1="18" y1="18" x2="22" y2="22" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <line x1="21" y1="20" x2="22" y2="22" stroke="var(--ink)" stroke-width="1" opacity="0.5"/>
+          </svg>
+        Achilles：愤怒 → 非人 → 悲悯。</strong>这不是「成长」——是解构后重建。Book I 荣誉受损退出 → Book IX 拒绝修复（τίμή 经济破产）→ Books XVIII–XXI Patroclus 死后愤怒升级为非人化——杀 Lycaon（抱膝求饶仍被剖腹）。Book XXIV：Priam 来赎尸时，Achilles 看着敌人的父亲，想起了自己的父亲。两个人的眼泪没有化解仇恨，只是覆盖了它。</p>
+      </div>
+
+      <!-- 场景插图：Patroclus 之死 — Achilles 的哀恸 -->
+      <figure style="text-align:center; margin:1rem 0 1.5rem;">
+        <img src="images/scene_patroclus_mourning_thumb.png" alt="Achilles mourning over the body of Patroclus — Iliad Book XVIII" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:85%; margin:0 auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+        <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.3rem;">Achilles mourning Patroclus — Iliad XVIII · 哀恸是愤怒的燃料 · ARK Seedream 4.0</figcaption>
+      </figure>
+
+      <!-- 陶瓶画插图 -->
+      <figure style="text-align:center; margin:1rem 0 1.5rem;">
+        <img src="images/illust_hector_andromache_thumb.png" alt="Hector and Andromache at the Scaean Gates — Iliad Book VI" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:80%; margin:0 auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+        <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.3rem;">Hector &amp; Andromache at the Scaean Gates — Iliad VI · ARK Seedream</figcaption>
+      </figure>
+
+      <!-- Hector — 特洛伊头盔图标 -->
+      <div class="character-block">
+        <p><strong>
+          <svg class="marginalia-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <title>Hector: 特洛伊头盔</title>
+            <path d="M6,18 L6,12 Q6,8 12,6 Q18,8 18,12 L18,18" fill="none" stroke="var(--ink)" stroke-width="1.3" opacity="0.7"/>
+            <path d="M8,12 Q8,16 12,18 Q16,16 16,12" fill="none" stroke="var(--ink)" stroke-width="1" opacity="0.5"/>
+            <line x1="6" y1="18" x2="18" y2="18" stroke="var(--ink)" stroke-width="1.3" opacity="0.6"/>
+            <path d="M8,6 L8,10 M16,6 L16,10" stroke="var(--ink)" stroke-width="0.8" opacity="0.5"/>
+            <path d="M11,3 Q12,1 13,3" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.6"/>
+          </svg>
+        Hector：从英雄到猎物。</strong>Iliad 最残酷的地方在于，Hector 的弧线是下坡路。Book VI 摘下头盔不让 Astyanax 害怕——人性的巅峰。Book XXII 见 Achilles 冲来时逃跑——「Hector stood his ground, but when he saw Achilles, his heart failed him and he fled.」城墙上跑三圈不是懦弱，是一个人意识到自己即将死去时的完整恐惧。</p>
+      </div>
+
+      <!-- Odysseus — 船图标 -->
+      <div class="character-block">
+        <p><strong>
+          <svg class="marginalia-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <title>Odysseus: 船</title>
+            <path d="M4,16 Q8,10 12,8 Q16,10 20,16" fill="none" stroke="var(--ink)" stroke-width="1.3" opacity="0.7"/>
+            <line x1="12" y1="4" x2="12" y2="8" stroke="var(--ink)" stroke-width="1.2" opacity="0.7"/>
+            <path d="M8,5 L12,4 L16,5" fill="none" stroke="var(--ink)" stroke-width="0.8" opacity="0.5"/>
+            <line x1="3" y1="18" x2="21" y2="18" stroke="var(--ink)" stroke-width="1" opacity="0.5"/>
+            <path d="M6,16 L12,19 L18,16" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.4"/>
+          </svg>
+        Odysseus：从智胜到忍耐。</strong>Iliad 里他只是参谋。Odyssey 里经历了从 μῆτις（纯粹智力）到忍耐的转变。前九年每一场冒险都是智力测试，但 μῆτις 救他于每个险境，也害他于每个长远选择。Calypso 岛上他不再靠智力——每日坐在海边望海哭泣。<em>nostos 的终点不是机智，是忍耐。</em></p>
+      </div>
+
+      <!-- Penelope — 织布梭图标 -->
+      <div class="character-block">
+        <p><strong>
+          <svg class="marginalia-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <title>Penelope: 织布梭</title>
+            <line x1="6" y1="6" x2="18" y2="18" stroke="var(--ink)" stroke-width="1" opacity="0.5"/>
+            <line x1="6" y1="18" x2="18" y2="6" stroke="var(--ink)" stroke-width="1" opacity="0.5"/>
+            <rect x="10" y="4" width="4" height="16" rx="1.5" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.6"/>
+            <line x1="12" y1="4" x2="12" y2="20" stroke="var(--ink)" stroke-width="0.6" opacity="0.4"/>
+            <path d="M4,12 L20,12" stroke="var(--ink)" stroke-width="0.6" opacity="0.3"/>
+          </svg>
+        Penelope：缺席的女英雄的完整智慧。</strong>织布计（三年，破于第四年）、衣着细节测试、橄榄木床测试——她的 μῆτις 与丈夫完全镜像对称。他靠伪装活下来，她靠怀疑活下来。区别在于代价：他的伪装可以卸下，她的伪装卸不下——二十年的等待已经改了她。</p>
+      </div>
+    </section>
+
+    <!-- THREE -->
+    <section class="section" id="three">
+      <span class="section-numeral">三</span>
+      <h2>第一性原理：荷马的基本粒子</h2>
+      <p><strong>公理 1：人会死。</strong>荷马笔下没有「不死」的英雄，只有「选择何时死、怎么死」的英雄。Achilles 的著名选择（短命 + 不朽荣誉 vs 长命 + 默默无闻）不是神话，是死亡面前的自由意志问题。</p>
+      <p><strong>公理 2：神不会死。</strong>这是神与人的唯一本质区别，不是力量、不是智慧。神可以受伤（Aphrodite 被 Diomed 刺伤流出 ichor）、可以被骗（Hera 骗 Zeus）、可以被击败（Ares 被 Athena 用巨石打倒），但神不会死。所以神的痛苦没有终极性。</p>
+      <p><strong>公理 3：ξενία（客友法则）是文明的边界。</strong>谁遵守 xenia → 文明人；谁破坏 xenia → 非人 / 将被神惩罚。Cyclops 不吃客人 ≠ 他吃人——他吃「访客」，这是对 Zeus Xenios 的渎神。</p>
+
+      <!-- 概念插图：客友法则的边界 -->
+      <figure class="concept-illo">
+        <img src="images/conc_02_xenia_thumb.png" alt="客友法则 Xenia: Cyclops 的野蛮 vs Phaeacian 的文明" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:85%; margin:0.8rem auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+        <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.75rem; color:#a0622e; margin-top:0.2rem; text-align:center;">客友法则的边界 — Cyclops 吃客 (文明之外) vs Phaeacian 宴客 (文明之内) · ARK Seedream 5.0</figcaption>
+      </figure>
+      <p><strong>公理 4：κλέος（不朽的荣誉）是死亡的唯一补偿。</strong>英雄的全部行动逻辑：既然必死，死后唯一的延续是名字被后人传唱。</p>
+
+      <!-- 概念插图：arete / timē / kleos 三种货币 -->
+      <figure class="concept-illo">
+        <img src="images/conc_arete_time_kleos_thumb.png" alt="arete 卓越 / timē 荣誉 / kleos 不朽之名 — 英雄世界的三种货币" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:85%; margin:0.8rem auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+        <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.75rem; color:#a0622e; margin-top:0.2rem; text-align:center;">arete 卓越 · timē 荣誉 · kleos 不朽之名 — 英雄世界的三种货币 · ARK Seedream 4.0</figcaption>
+      </figure>
+      <p><strong>公理 5：μοῖρα（命运）高于宙斯。</strong>Book XVI：Sarpedon 即将被 Patroclus 杀死时，宙斯犹豫「要不要救我的儿子？」——Hera 回答：「凡人自有其命定的死亡之日。你如果改变命运，其他神也会为自己的儿子这么做。」<em>至高神也必须服从命运。</em></p>
+
+      <!-- Olympus 众神关系图 -->
+      <div class="olympus-tree">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 280" width="560" height="280" role="img" aria-label="Olympus 权力结构与特洛伊战争阵营">
+          <title>Olympus 众神谱系 — 谁帮希腊(G) · 谁帮特洛伊(T)</title>
+
+          <!-- 连线 — 金色 -->
+          <g stroke="var(--gold)" stroke-width="1" opacity="0.6" fill="none">
+            <!-- Zeus to children level 1 -->
+            <line x1="280" y1="58" x2="100" y2="105"/>
+            <line x1="280" y1="58" x2="215" y2="105"/>
+            <line x1="280" y1="58" x2="345" y2="105"/>
+            <line x1="280" y1="58" x2="460" y2="105"/>
+            <!-- Zeus to children level 2 (Apollo, Artemis, Ares) -->
+            <line x1="280" y1="58" x2="145" y2="175"/>
+            <line x1="280" y1="58" x2="280" y2="175"/>
+            <line x1="280" y1="58" x2="415" y2="175"/>
+            <!-- Aphrodite special connection -->
+            <line x1="215" y1="123" x2="510" y2="228"/>
+          </g>
+
+          <!-- ZEUS — 顶部 -->
+          <circle cx="280" cy="40" r="22" fill="none" stroke="var(--gold)" stroke-width="2.2" opacity="0.8"/>
+          <circle cx="280" cy="40" r="18" fill="rgba(196,163,90,0.08)"/>
+          <text x="280" y="36" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond', serif" font-size="13" font-weight="700">⚡ Zeus</text>
+          <text x="280" y="52" text-anchor="middle" fill="var(--ink-light)" font-family="'Cormorant Garamond', serif" font-size="9" font-style="italic">King of Gods</text>
+
+          <!-- ROW 2: First generation -->
+          <!-- Hera -->
+          <circle cx="100" cy="105" r="16" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="100" cy="105" r="13" fill="rgba(196,163,90,0.05)"/>
+          <text x="100" y="101" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10.5" font-weight="600">Hera</text>
+          <text x="100" y="114" text-anchor="middle" fill="var(--ink-light)" font-size="8.5">👑 天后</text>
+          <!-- G marker -->
+          <rect x="93" y="119" width="14" height="10" rx="2" fill="none" stroke="#2c5aa0" stroke-width="0.8" opacity="0.7"/>
+          <text x="100" y="127" text-anchor="middle" fill="#2c5aa0" font-size="7" font-weight="700">G</text>
+
+          <!-- Poseidon -->
+          <circle cx="215" cy="105" r="16" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="215" cy="105" r="13" fill="rgba(196,163,90,0.05)"/>
+          <text x="215" y="101" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10.5" font-weight="600">Poseidon</text>
+          <text x="215" y="114" text-anchor="middle" fill="var(--ink-light)" font-size="8.5">🔱 海神</text>
+          <rect x="208" y="119" width="14" height="10" rx="2" fill="none" stroke="#2c5aa0" stroke-width="0.8" opacity="0.7"/>
+          <text x="215" y="127" text-anchor="middle" fill="#2c5aa0" font-size="7" font-weight="700">G</text>
+
+          <!-- Hades -->
+          <circle cx="345" cy="105" r="16" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="345" cy="105" r="13" fill="rgba(196,163,90,0.05)"/>
+          <text x="345" y="101" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10.5" font-weight="600">Hades</text>
+          <text x="345" y="114" text-anchor="middle" fill="var(--ink-light)" font-size="8.5">💀 冥王</text>
+          <rect x="338" y="119" width="14" height="10" rx="2" fill="none" stroke="var(--ink-faint)" stroke-width="0.8" opacity="0.6"/>
+          <text x="345" y="127" text-anchor="middle" fill="var(--ink-faint)" font-size="7" font-weight="700">N</text>
+
+          <!-- Athena -->
+          <circle cx="460" cy="105" r="16" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="460" cy="105" r="13" fill="rgba(196,163,90,0.05)"/>
+          <text x="460" y="101" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10.5" font-weight="600">Athena</text>
+          <text x="460" y="114" text-anchor="middle" fill="var(--ink-light)" font-size="8.5">🦉 智慧</text>
+          <rect x="453" y="119" width="14" height="10" rx="2" fill="none" stroke="#2c5aa0" stroke-width="0.8" opacity="0.7"/>
+          <text x="460" y="127" text-anchor="middle" fill="#2c5aa0" font-size="7" font-weight="700">G</text>
+
+          <!-- ROW 3: Second generation -->
+          <!-- Apollo -->
+          <circle cx="145" cy="175" r="16" fill="none" stroke="var(--gold)" stroke-width="1.2" opacity="0.6"/>
+          <circle cx="145" cy="175" r="13" fill="rgba(196,163,90,0.04)"/>
+          <text x="145" y="171" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10" font-weight="600">Apollo</text>
+          <text x="145" y="184" text-anchor="middle" fill="var(--ink-light)" font-size="8">☀️ 日神</text>
+          <rect x="138" y="189" width="14" height="10" rx="2" fill="none" stroke="#8b1a1a" stroke-width="0.8" opacity="0.7"/>
+          <text x="145" y="197" text-anchor="middle" fill="#8b1a1a" font-size="7" font-weight="700">T</text>
+
+          <!-- Artemis -->
+          <circle cx="280" cy="175" r="16" fill="none" stroke="var(--gold)" stroke-width="1.2" opacity="0.6"/>
+          <circle cx="280" cy="175" r="13" fill="rgba(196,163,90,0.04)"/>
+          <text x="280" y="171" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10" font-weight="600">Artemis</text>
+          <text x="280" y="184" text-anchor="middle" fill="var(--ink-light)" font-size="8">🌙 月神</text>
+          <rect x="273" y="189" width="14" height="10" rx="2" fill="none" stroke="#8b1a1a" stroke-width="0.8" opacity="0.7"/>
+          <text x="280" y="197" text-anchor="middle" fill="#8b1a1a" font-size="7" font-weight="700">T</text>
+
+          <!-- Ares -->
+          <circle cx="415" cy="175" r="16" fill="none" stroke="var(--gold)" stroke-width="1.2" opacity="0.6"/>
+          <circle cx="415" cy="175" r="13" fill="rgba(196,163,90,0.04)"/>
+          <text x="415" y="171" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10" font-weight="600">Ares</text>
+          <text x="415" y="184" text-anchor="middle" fill="var(--ink-light)" font-size="8">⚔️ 战神</text>
+          <rect x="408" y="189" width="14" height="10" rx="2" fill="none" stroke="#8b1a1a" stroke-width="0.8" opacity="0.7"/>
+          <text x="415" y="197" text-anchor="middle" fill="#8b1a1a" font-size="7" font-weight="700">T</text>
+
+          <!-- Aphrodite -->
+          <circle cx="510" cy="228" r="16" fill="none" stroke="var(--gold)" stroke-width="1.2" opacity="0.6"/>
+          <circle cx="510" cy="228" r="13" fill="rgba(196,163,90,0.04)"/>
+          <text x="510" y="224" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10" font-weight="600">Aphrodite</text>
+          <text x="510" y="237" text-anchor="middle" fill="var(--ink-light)" font-size="8">💗 爱神</text>
+          <rect x="503" y="242" width="14" height="10" rx="2" fill="none" stroke="#8b1a1a" stroke-width="0.8" opacity="0.7"/>
+          <text x="510" y="250" text-anchor="middle" fill="#8b1a1a" font-size="7" font-weight="700">T</text>
+
+          <!-- Hermes -->
+          <circle cx="50" cy="228" r="16" fill="none" stroke="var(--gold)" stroke-width="1.2" opacity="0.6"/>
+          <circle cx="50" cy="228" r="13" fill="rgba(196,163,90,0.04)"/>
+          <text x="50" y="224" text-anchor="middle" fill="var(--ink)" font-family="'Cormorant Garamond',serif" font-size="10" font-weight="600">Hermes</text>
+          <text x="50" y="237" text-anchor="middle" fill="var(--ink-light)" font-size="8">🪽 信使</text>
+          <rect x="43" y="242" width="14" height="10" rx="2" fill="none" stroke="#2c5aa0" stroke-width="0.8" opacity="0.7"/>
+          <text x="50" y="250" text-anchor="middle" fill="#2c5aa0" font-size="7" font-weight="700">G</text>
+
+          <!-- Legend -->
+          <g transform="translate(15, 262)">
+            <rect x="0" y="0" width="12" height="9" rx="2" fill="none" stroke="#2c5aa0" stroke-width="0.8"/>
+            <text x="6" y="7.5" text-anchor="middle" fill="#2c5aa0" font-size="7" font-weight="700">G</text>
+            <text x="16" y="7.5" fill="var(--ink-light)" font-size="8">帮希腊</text>
+            <rect x="60" y="0" width="12" height="9" rx="2" fill="none" stroke="#8b1a1a" stroke-width="0.8"/>
+            <text x="66" y="7.5" text-anchor="middle" fill="#8b1a1a" font-size="7" font-weight="700">T</text>
+            <text x="76" y="7.5" fill="var(--ink-light)" font-size="8">帮特洛伊</text>
+            <rect x="140" y="0" width="12" height="9" rx="2" fill="none" stroke="var(--ink-faint)" stroke-width="0.8"/>
+            <text x="146" y="7.5" text-anchor="middle" fill="var(--ink-faint)" font-size="7" font-weight="700">N</text>
+            <text x="156" y="7.5" fill="var(--ink-light)" font-size="8">中立</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- 概念插图：Achilles 之盾 -->
+      <figure class="concept-illo">
+        <img src="images/conc_04_shield_thumb.png" alt="Achilles 之盾: Iliad XVIII 的 ekphrasis" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:85%; margin:0.8rem auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+        <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.75rem; color:#a0622e; margin-top:0.2rem; text-align:center;">Achilles 之盾 — 荷马的 ekphrasis：盾面上的整个宇宙 · ARK Seedream 5.0</figcaption>
+      </figure>
+    </section>
+
+    <!-- FOUR -->
+    <section class="section" id="four">
+      <span class="section-numeral">四</span>
+      <h2>双史诗的碰撞：不能同时选的两种人生</h2>
+      <table>
+        <thead><tr><th>结构性对立</th><th>Iliad</th><th>Odyssey</th></tr></thead>
+        <tbody>
+          <tr><td>核心驱动</td><td>μῆνις（愤怒）</td><td>νόστος（归乡）</td></tr>
+          <tr><td>空间</td><td>特洛伊平原 ~ 5km²</td><td>整个地中海 + 冥府</td></tr>
+          <tr><td>时间</td><td>收缩（9年 → 4天）</td><td>膨胀（10年 → 嵌套叙事）</td></tr>
+          <tr><td>神的态度</td><td>分边介入，制造混乱</td><td>Athena 暗中辅助，有条不紊</td></tr>
+          <tr><td>英雄的难题</td><td>荣誉 vs 生命</td><td>智慧 vs 归途</td></tr>
+          <tr><td>最有力量的场景</td><td>两个敌人一起哭（帐篷）</td><td>丈夫和妻子重新同床（橄榄木床）</td></tr>
+          <tr><td>结束时的感觉</td><td>没有胜利，只有哀悼</td><td>没有和平，只有下一个战争</td></tr>
+          <tr><td>「英雄」的定义</td><td>能被后人歌唱的死者</td><td>能活着回家的幸存者</td></tr>
+        </tbody>
+      </table>
+      <p>根本张力：Achilles 选择了 κλέος 而非 νόστος（他永远不会回家了），Odysseus 选择了 νόστος 而代价是 κλέος。两部史诗加在一起 = 荷马对「怎样活」的完整回答：<em>你只能选一条路。选了不朽之名，就没有家。选了家，就得忍受一切屈辱。</em></p>
+    </section>
+
+  </div><!-- /col-left -->
+
+  <!-- RIGHT COLUMN: sections 5–8 -->
+  <div class="col-right">
+
+    <!-- FIVE -->
+    <section class="section" id="five">
+      <span class="section-numeral">五</span>
+      <h2>神与凡人：因为神不会死，所以神不懂痛苦</h2>
+      <p>荷马的神是功能性的，不是道德的。神的道德逻辑是：谁敬我，我帮谁。谁惹我，我整谁。这和凡人的人际网络没有区别——只是神有神力。</p>
+      <p><strong>神的痛苦没有终极性。</strong>Book V：Aphrodite 被 Diomed 刺伤后哭着跑回 Olympus，Zeus 笑着对她说：「战争不适合你，我的孩子，去管婚嫁的事吧。」Book XXI：众神互殴，这些场景被写成 <em>喜剧</em>。为什么？因为神不会死。Ares 倒下了 → 起身、揉肩、走了。Hector 倒下了 → Andromache 从城墙上看见、晕倒、醒来后说：「你留下我和孩子，你将我变成寡妇。」<em>神不需要面对死亡的后果，所以神不需要道德。凡人的全部道德，都源于「人会死」这一事实。</em></p>
+      <p>但也有例外——<strong>Zeus 对 Sarpedon 的眼泪。</strong>当 Zeus 即将失去儿子却被迫服从命运时，「他降下血红的露珠，如同为即将死去的儿子落泪。」这是全诗唯一一次——神也体验到了凡人的「不可挽回之丧失」。</p>
+    </section>
+
+    <!-- SIX -->
+    <section class="section" id="six">
+      <span class="section-numeral">六</span>
+      <h2>神谕与命运：所有人都知道结局，但没人能改变它</h2>
+      <p>Iliad 里，<strong>每一个神的干预都在实现命运，而不是改变命运。</strong>预言被拒绝时，拒绝本身就是预言的实现途径。</p>
+      <p>Teiresias 的冥府预言（Odyssey Book XI）：「太阳神牛群不能碰 → 碰了则船毁人亡、孤身归」——Odysseus 的部下在 Thrinacia 宰了牛。预言没有告诉 Odysseus「你该如何避免」，它只告诉了他会发生什么。这是希腊命运观的核心——<em>「必然之事已存在，你只是还没走到那里。」</em></p>
+      <p id="scale-section"><strong>金天平</strong>是命运的物质化——Zeus 各取一缕命运放在天平上，希腊一侧沉下去。注意：Zeus 没有「决定」谁赢——他称量了一个已经存在的重量差。这解释了为什么 Athena 可以「迫使 Hector 停步」，但 Zeus 不能「让 Sarpedon 不死」——<em>神可以操纵人的感知，但神不能撤销死亡本身。</em></p>
+    </section>
+
+    <!-- SEVEN -->
+    <section class="section" id="seven">
+      <span class="section-numeral">七</span>
+      <h2>神的战争：在天上打一架，什么后果都没有</h2>
+      <p>Iliad Book XX–XXI 的众神之战，被荷马写成了<strong>一场闹剧</strong>。Zeus 坐在 Olympus 顶峰往下看，大笑。</p>
+      <p>为什么写成喜剧？因为神的战争<strong>没有赌注。</strong>不会有人死，不会有人永久受伤。神的战争是没有后果的力量展演——像两只猫在房顶上对吼。荷马用喜剧来标注一个形而上学事实：<em>不死者的冲突，在意义上永远不及会死者的冲突。</em></p>
+      <p>对比：同一天，人间战场上——Hector 在城墙上跑三圈被 Achilles 追，喉咙被戳穿，临死前求「把我的尸体还给父亲」，被拒。<em>一个有赌注，一个没有。荷马把两场战争并置，就是在说这句话。</em></p>
+    </section>
+
+    <!-- EIGHT -->
+    <section class="section" id="eight">
+      <span class="section-numeral">八</span>
+      <h2>人的战争：暴力面前的防线</h2>
+      <p>如果神的战争是「没有代价的冲突」，人的战争就是每条防线都会崩溃的冲突。Iliad 中，人在暴力面前会依次失去五层东西：</p>
+      <p><strong>第一层：荣誉经济 → 崩溃于 Book I。</strong>Agamemnon 夺 Briseis，证明王者可以强夺按战功分配的战利品。<br><strong>第二层：语言的修复能力 → 崩溃于 Book IX。</strong>使团带十倍赎礼来求和，Achilles 拒绝。文字不能修复暴力的伤痕。<br><strong>第三层：协议/契约 → 崩溃于 Book IV。</strong>Menelaus 和 Paris 的决斗本应结束战争——Aphrodite 救走 Paris，停战失败。<br><strong>第四层：怜悯 → 崩溃于 Book XXI。</strong>Lycaon 丢下武器抱住 Achilles 的膝盖求饶——「Achilles 却不为所动」。这是全诗最冷的一幕。<br><strong>第五层：人性本身 → 崩溃于 Book XXII。</strong>Achilles 杀死 Hector 后，把尸体绑在战车后拖行。连 Apollo 都在 Olympus 抗议：「他侮辱了无声的泥土。」</p>
+      <!-- 场景插图：Hector 尸身被拖行 -->
+      <figure style="text-align:center; margin:1rem 0 1.5rem;">
+        <img src="images/scene_hector_dragged_thumb.png" alt="Achilles dragging Hector's body behind his chariot — Iliad Book XXII" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:85%; margin:0 auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+        <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.3rem;">Achilles dragging Hector — Iliad XXII · 第五层防线：人性本身的崩溃 · ARK Seedream 4.0</figcaption>
+      </figure>
+      <p><strong>但 Odyssey 提供了另一种可能。</strong>不是「回到战争前」（永远回不去）——而是在暴力之后重建「家」。六重相认链条：狗认出气味（本能）→ 乳母摸到伤疤（身体证据）→ 牧猪奴证明忠诚 → 儿子相认 → 妻子通过「只有我们知道的事」测试（橄榄木床）→ 父亲通过「树的记忆」。<em>归乡不是回到原点，是用最曲折的方式重新确认每根纽带。</em></p>
+    </section>
+
+  </div><!-- /col-right -->
+
+</div><!-- /columns -->
+
+<div class="meander" aria-hidden="true"></div>
+
+<!-- CODA -->
+<section class="coda" id="coda">
+  <h2>终论</h2>
+  <p>荷马不是文学的开头，是文明的结构图。Iliad 的最后一幕不是胜利，是 Priam 在 Achilles 的帐篷里亲吻杀子之手，两人一起哭泣。史诗在第一卷歌唱愤怒，在最后一卷唱怜悯。Odyssey 的最后一幕不是团圆，是复仇之后 Athena 出面阻止新一轮血仇。归乡以暴力的链条结束，需要神来打断。</p>
+  <p><em>战争把人变成物，归乡把物变回人。两者都是真的。两者都不容易。</em></p>
+</section>
+
+<!-- 陶瓶画插图 -->
+<figure style="text-align:center; margin:1.5rem 0 0.5rem;">
+  <img src="images/illust_priam_achilles_thumb.png" alt="King Priam kissing the hand of Achilles — Iliad Book XXIV" class="codex-illo" style="filter:sepia(0.6) contrast(1.0) brightness(0.95); max-width:80%; margin:0 auto; display:block; border:3px solid #d4c5a0; border-radius:3px;">
+  <figcaption style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.8rem; color:#a0622e; margin-top:0.3rem;">Priam kisses Achilles' hand — Iliad XXIV · ARK Seedream</figcaption>
+</figure>
+
+<!-- 卷末 Colophon — 仿中世纪抄本版权装饰框 -->
+<div class="colophon">
+  <div class="colophon-frame">
+    <span class="colophon-meander-top" aria-hidden="true"></span>
+    <p class="colophon-text">基于 Samuel Butler 英译本逐卷深读 · 2026-08-05</p>
+    <span class="colophon-meander-bottom" aria-hidden="true"></span>
+  </div>
+</div>
+
+</div><!-- /parchment -->
+
+</body>
+</html>
